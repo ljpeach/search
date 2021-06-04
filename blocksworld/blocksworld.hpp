@@ -3,10 +3,15 @@
 #include <cassert>
 #include <vector>
 
+int MAXBLOCKS = 65536;
+
+#if NBLOCKS >= MAXBLOCKS
+#error Too many blocks for unsigned short typed blocks.
+#endif
 
 class Blocksworld{
 public:
-    typedef unsigned int Block;
+    typedef unsigned short Block;
 	typedef unsigned int Cost;
 
 	// The type of an operator which can be
@@ -14,10 +19,19 @@ public:
 	// integer but it may be some more complex
 	// class.  Searches assume that operator==
 	// is defined on the Oper class.
-	typedef unsigned int Oper;
-	static const Oper Nop = NULL;//a "do nothing" action
+    static const Oper Nop = Oper(NULL, NULL);//a "do nothing" action
 
 	Blocksworld(FILE*);
+
+    struct Oper{
+        typedef Block from;
+        typedef Block to;
+
+        Oper(Block b1, Block b2){
+            from = b1;
+            to = b2;
+        }
+    };
 
 	struct State {
 
@@ -26,22 +40,35 @@ public:
 
         Block above[nblocks];
         Block below[nblocks];
-        Block goal[nblocks];
+        Cost h;
+        Cost d;
 
-        void moveblock(Oper move)
+        void moveblock(Oper move, const Blocksworld &d.)
         {
-            int pickUp = move/100000
-            int putOn = move%100000
-            if(below[pickUp]!=goal[pickUp]) h--;
+            Block pickUp = move.from;
+            Block putOn = move.to;
+            if(below[pickUp]!=d.goal[pickUp]) h--;
+            else
+            {
+                int block = below[pickUp];
+                while(block!=NULL)
+                {
+                    if(below[block] != d.goal[block]){
+                        h--;
+                        break;
+                    }
+                    block = below[block];
+                }
+            }
             if(below[pickUp] != NULL) above[below[pickUp]] = NULL;
             if(putOn != 0) {
-                if(below[pickUp]!=goal[putOn]) h++;
+                if(below[pickUp]!=d.goal[putOn]) h++;
                 else
                 {
                     int block = below[putOn];
                     while(block!=NULL)
                     {
-                        if(below[block] != goal[block]){
+                        if(below[block] != d.goal[block]){
                             h++;
                             break;
                         }
@@ -51,8 +78,10 @@ public:
                 above[putOn - 1] = pickUp;
                 below[pickUp] = putOn-1;
             }
-            else below[pickUp] = NULL
+            else below[pickUp] = NULL;
+            d = h;
         }
+
     };
 
 	// Memory-intensive algs such as A* which store
@@ -62,16 +91,21 @@ public:
 	//
 	// If your state is as packed as it will get then you
 	// can simply 'typedef State PackedState'
+    typedef State PackedState;
+    /*
 	struct PackedState {
-		…
+		Block *packedDown;
 
 		// Functions for putting a packed state
 		// into a hash table.
-		bool operator==(const PackedState &) const {
-			return false;
+		bool operator==(const PackedState &o) const {
+			for(int i = 0; i<nblocks; i++){
+                if(o[i] != *packedDown[i]) return False;
+            }
+            return True;
 		}
 	};
-
+    */
 	unsigned long hash(const PackedState&) const {
 		return -1;
 	}
@@ -86,7 +120,7 @@ public:
 
 	// Get a distance estimate.
 	Cost d(const State &s) const {
-		return s.h;
+		return s.d;
 	}
 
 	// Is the given state a goal state?
@@ -104,30 +138,31 @@ public:
                 if(s.above[i] == NULL && s.below != NULL) stacks++;
                 else if(s.above[i] == NULL) tabled++;
             }
-            n = tabled * (stacks + tabled -1) + stacks*(stacks + tabled)
+            n = tabled * (stacks + tabled -1) + stacks * (stacks + tabled)
             int * tops= new Oper[stacks+tabled]
             int pos = 0
             for(int i = 0; i< nblocks; i++){
-                if(s.above[i] == NULL && s.below != NULL) {
-                    tops[pos] = [i];
+                if(s.above[i] == NULL) {
+                    tops[pos] = i;
                     pos++;
                 }
             }
             pos = 0;
-            * mvs = new Oper[n]
-            for(int pickUp : tops){
-                int upOper = pickup*(100000);
+            *mvs = new Oper[n]
+            for(Block pickUp : tops){
+                Block upOper = pickup;
                 if (s.below[pickUp] != NULL) {
-                    mvs[pos] = upOper;
+                    *mvs[pos] = upOper;
                     pos++;
                 }
                 for(int putOn : tops){
-                    mvs[pos] = upOper + putOn+1;
+                    *mvs[pos] = Oper(upOper, putOn+1);
                     pos++;
                 }
             }
+            del tops;
         }
-        //4294967296
+        //42949 67296
         //1234500000
 		// size returns the number of applicable operatiors.
 		unsigned int size() const {
@@ -165,13 +200,12 @@ public:
 		Edge(const Blocksworld&, const State& s, Oper move) {
             state = s;
             cost = 1;
-            int inHand = move/100000;
-            int oldBottom = below[inHand];
+            Block inHand = move.from;
+            Block oldBottom = below[inHand];
             if (oldBottom = NULL) oldBottom = 0;
             else oldBottom++;
-            revop = inHand * 100000 + oldBottom;
+            revop = Oper(inHand, oldBottom);
             revcost = 1;
-            oldh = state.h;
             state.moveblock(move);
         }
 
@@ -181,18 +215,15 @@ public:
 		// modification then the destructor may not be
 		// required.
 		~Edge(void) {
-            state.h = oldh;
             state.moveblock(revop);
         }
-    private:
-        Cost oldh;
 	};
 
 	// Pack the state into the destination packed state.
 	// If PackedState is the same type as State then this
 	// should at least copy.
 	void pack(PackedState &dst, State &src) const {
-		dst = src.below;
+		dst = src;
 	}
 
 	// Unpack the state and return a reference to the
@@ -201,8 +232,7 @@ public:
 	// can just be immediately returned and used
 	// so that there is no need to copy.
 	State &unpack(State &buf, PackedState &pkd) const {
-		fatal("Unimplemented");
-		return buf;
+		return pkd;
 	}
 
 	// Print the state.
@@ -213,8 +243,9 @@ public:
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
 private:
     Block init[nblocks];
+    Block goal[nblocks];
 
-    Cost noop(Block below[], Block above[], Block goal[]) {
+    static Cost noop(Block below[], Block above[]) {
         Cost oop = 0;
         for(Block block : blocks)
         {
