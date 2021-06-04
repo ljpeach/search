@@ -3,9 +3,8 @@
 #include <cassert>
 #include <vector>
 
-int MAXBLOCKS = 65536;
-
-#if NBLOCKS >= MAXBLOCKS
+#define MAXBLOCKS 65536
+#if NBLOCKS > MAXBLOCKS
 #error Too many blocks for unsigned short typed blocks.
 #endif
 
@@ -13,72 +12,73 @@ class Blocksworld{
 public:
     typedef unsigned short Block;
 	typedef unsigned int Cost;
-
+    enum{Nblocks = NBLOCKS};
 	// The type of an operator which can be
 	// applied to a state.  This is usually just an
 	// integer but it may be some more complex
 	// class.  Searches assume that operator==
 	// is defined on the Oper class.
-    static const Oper Nop = Oper(NULL, NULL);//a "do nothing" action
-
-	Blocksworld(FILE*);
 
     struct Oper{
-        typedef Block from;
-        typedef Block to;
+        Block from;
+        Block to;
 
-        Oper(Block b1, Block b2){
+        Oper(Block b1 = 0, Block b2 = 0){
             from = b1;
             to = b2;
         }
     };
+
+    static const Oper Nop;//a "do nothing" action
+
+	Blocksworld(FILE*);
 
 	struct State {
 
     private:
         friend class Blocksworld;
 
-        Block above[nblocks];
-        Block below[nblocks];
+        Block above[Nblocks];
+        Block below[Nblocks];
         Cost h;
         Cost d;
 
-        void moveblock(Oper move, const Blocksworld &d.)
+        void moveblock(Oper move, const Blocksworld &domain)
         {
             Block pickUp = move.from;
             Block putOn = move.to;
-            if(below[pickUp]!=d.goal[pickUp]) h--;
+            if(below[pickUp-1]!=domain.goal[pickUp-1]) h--;
             else
             {
-                int block = below[pickUp];
-                while(block!=NULL)
+                int block = below[pickUp-1];
+                while(block!=0)
                 {
-                    if(below[block] != d.goal[block]){
+                    if(below[block-1] != domain.goal[block-1]){
                         h--;
                         break;
                     }
-                    block = below[block];
+                    block = below[block-1];
                 }
             }
-            if(below[pickUp] != NULL) above[below[pickUp]] = NULL;
+            if(below[pickUp-1] != 0) above[below[pickUp-1]-1] = 0;
             if(putOn != 0) {
-                if(below[pickUp]!=d.goal[putOn]) h++;
+                if(below[pickUp-1]!=domain.goal[putOn-1]) h++;
                 else
                 {
-                    int block = below[putOn];
-                    while(block!=NULL)
+                    int block = below[putOn-1];
+                    while(block!=0)
                     {
-                        if(below[block] != d.goal[block]){
+                        if(below[block-1] != domain.goal[block-1]){
                             h++;
                             break;
                         }
-                        block = below[block];
+                        block = below[block-1];
                     }
                 }
-                above[putOn - 1] = pickUp;
-                below[pickUp] = putOn-1;
+                above[putOn-1] = pickUp;
+                below[pickUp-1] = putOn;
             }
-            else below[pickUp] = NULL;
+            else below[pickUp-1] = 0;
             d = h;
         }
 
@@ -134,33 +134,33 @@ public:
 		Operators(const Blocksworld&, const State& s){
             int stacks = 0;
             int tabled = 0;
-            for(int i = 0; i< nblocks; i++){
-                if(s.above[i] == NULL && s.below != NULL) stacks++;
-                else if(s.above[i] == NULL) tabled++;
+            for(int i = 0; i< Nblocks; i++){
+                if(s.above[i] == 0 && s.below[i] != 0) stacks++;
+                else if(s.above[i] == 0) tabled++;
             }
-            n = tabled * (stacks + tabled -1) + stacks * (stacks + tabled)
-            int * tops= new Oper[stacks+tabled]
-            int pos = 0
-            for(int i = 0; i< nblocks; i++){
-                if(s.above[i] == NULL) {
+            n = tabled * (stacks + tabled -1) + stacks * (stacks + tabled);
+            int * tops = new int[stacks+tabled];
+            int pos = 0;
+            for(int i = 0; i< Nblocks; i++){
+                if(s.above[i] == 0) {
                     tops[pos] = i;
                     pos++;
                 }
             }
             pos = 0;
-            *mvs = new Oper[n]
-            for(Block pickUp : tops){
-                Block upOper = pickup;
-                if (s.below[pickUp] != NULL) {
-                    *mvs[pos] = upOper;
+            Oper * temp = new Oper[n];
+            mvs = temp;
+            for(int pickUp = 0; pickUp < stacks+tabled; pickUp++){
+                if (s.below[tops[pickUp]+1] != 0) {
+                    mvs[pos] = Oper(pickUp+1, 0);
                     pos++;
                 }
-                for(int putOn : tops){
-                    *mvs[pos] = Oper(upOper, putOn+1);
+                for(int putOn = 0; putOn < stacks+tabled; pickUp++){
+                    mvs[pos] = Oper(pickUp+1, putOn+1);
                     pos++;
                 }
             }
-            del tops;
+            delete [] tops;
         }
         //42949 67296
         //1234500000
@@ -197,16 +197,14 @@ public:
 		// Because of this, a search algorithm may not
 		// use the state passed to this constructor until
 		// after the Edge's destructor has been called!
-		Edge(const Blocksworld&, const State& s, Oper move) {
+		Edge(const Blocksworld& d, const State& s, const Oper move) {
             state = s;
             cost = 1;
             Block inHand = move.from;
-            Block oldBottom = below[inHand];
-            if (oldBottom = NULL) oldBottom = 0;
-            else oldBottom++;
+            Block oldBottom = state.below[inHand-1];
             revop = Oper(inHand, oldBottom);
             revcost = 1;
-            state.moveblock(move);
+            state.moveblock(move, d);
         }
 
 		// The destructor is expected to undo any changes
@@ -215,7 +213,7 @@ public:
 		// modification then the destructor may not be
 		// required.
 		~Edge(void) {
-            state.moveblock(revop);
+            state.moveblock(revop, d);
         }
 	};
 
@@ -242,21 +240,21 @@ public:
 
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
 private:
-    Block init[nblocks];
-    Block goal[nblocks];
+    Block init[Nblocks];
+    Block goal[Nblocks];
 
     static Cost noop(Block below[], Block above[]) {
         Cost oop = 0;
-        for(Block block : blocks)
+        for(Block block : below)
         {
-            if(below[block] == NULL)
+            if(below[block-1] == 0)
             {
                 bool incorrect = false;
                 Block current = block;
-                while(current != NULL){
-                    if(!incorrect && below[current] != goal[current]) incorrect = true;
+                while(current != 0){
+                    if(!incorrect && below[current-1] != goal[current-1]) incorrect = true;
                     if(incorrect) oop++;
-                    current = above[current];
+                    current = above[current-1];
                 }
             }
         }

@@ -1,10 +1,14 @@
 blocksworld:\
-	blocksworld/9blocksworld_solver\
-	blocksworld/14blocksworld_solver
+	blocksworld/10blocksworld_solver\
+	blocksworld/20blocksworld_solver\
+    blocksworld/50blocksworld_solver\
+	blocksworld/100blocksworld_solver
 
 CLEAN+=\
-	blocksworld/9blocksworld_solver\
-	blocksworld/14blocksworld_solver
+    blocksworld/10blocksworld_solver\
+    blocksworld/20blocksworld_solver\
+    blocksworld/50blocksworld_solver\
+    blocksworld/100blocksworld_solver
 
 EVERYTHING+=blocksworld
 

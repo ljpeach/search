@@ -1,0 +1,1552 @@
+In file included from blocksworld/blocksworld.cc:1:0:
+blocksworld/blocksworld.hpp:21:18: error: ‘Oper’ does not name a type
+     static const Oper Nop = Oper(NULL, NULL);//a "do nothing" action
+                  ^~~~
+blocksworld/blocksworld.hpp:40:21: error: ‘nblocks’ was not declared in this scope
+         Block above[nblocks];
+                     ^~~~~~~
+blocksworld/blocksworld.hpp:41:21: error: ‘nblocks’ was not declared in this scope
+         Block below[nblocks];
+                     ^~~~~~~
+blocksworld/blocksworld.hpp:45:55: error: expected ‘,’ or ‘...’ before ‘.’ token
+         void moveblock(Oper move, const Blocksworld &d.)
+                                                       ^
+blocksworld/blocksworld.hpp:244:16: error: ‘nblocks’ was not declared in this scope
+     Block init[nblocks];
+                ^~~~~~~
+blocksworld/blocksworld.hpp:245:16: error: ‘nblocks’ was not declared in this scope
+     Block goal[nblocks];
+                ^~~~~~~
+blocksworld/blocksworld.hpp: In constructor ‘Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)’:
+blocksworld/blocksworld.hpp:30:18: error: expected unqualified-id before ‘=’ token
+             from = b1;
+                  ^
+blocksworld/blocksworld.hpp:31:16: error: expected unqualified-id before ‘=’ token
+             to = b2;
+                ^
+blocksworld/blocksworld.hpp: In member function ‘void Blocksworld::State::moveblock(Blocksworld::Oper, const Blocksworld&)’:
+blocksworld/blocksworld.hpp:47:33: error: invalid use of ‘Blocksworld::Oper::from’
+             Block pickUp = move.from;
+                                 ^~~~
+blocksworld/blocksworld.hpp:48:32: error: invalid use of ‘Blocksworld::Oper::to’
+             Block putOn = move.to;
+                                ^~
+blocksworld/blocksworld.hpp:49:16: error: ‘below’ was not declared in this scope
+             if(below[pickUp]!=d.goal[pickUp]) h--;
+                ^~~~~
+blocksworld/blocksworld.hpp:49:33: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+             if(below[pickUp]!=d.goal[pickUp]) h--;
+                                 ^~~~
+blocksworld/blocksworld.hpp:53:30: error: NULL used in arithmetic [-Werror=pointer-arith]
+                 while(block!=NULL)
+                              ^~~~
+blocksworld/blocksworld.hpp:55:42: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+                     if(below[block] != d.goal[block]){
+                                          ^~~~
+blocksworld/blocksworld.hpp:62:16: error: ‘below’ was not declared in this scope
+             if(below[pickUp] != NULL) above[below[pickUp]] = NULL;
+                ^~~~~
+blocksworld/blocksworld.hpp:62:39: error: ‘above’ was not declared in this scope
+             if(below[pickUp] != NULL) above[below[pickUp]] = NULL;
+                                       ^~~~~
+blocksworld/blocksworld.hpp:64:20: error: ‘below’ was not declared in this scope
+                 if(below[pickUp]!=d.goal[putOn]) h++;
+                    ^~~~~
+blocksworld/blocksworld.hpp:64:37: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+                 if(below[pickUp]!=d.goal[putOn]) h++;
+                                     ^~~~
+blocksworld/blocksworld.hpp:68:34: error: NULL used in arithmetic [-Werror=pointer-arith]
+                     while(block!=NULL)
+                                  ^~~~
+blocksworld/blocksworld.hpp:70:46: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+                         if(below[block] != d.goal[block]){
+                                              ^~~~
+blocksworld/blocksworld.hpp:77:17: error: ‘above’ was not declared in this scope
+                 above[putOn - 1] = pickUp;
+                 ^~~~~
+blocksworld/blocksworld.hpp:78:17: error: ‘below’ was not declared in this scope
+                 below[pickUp] = putOn-1;
+                 ^~~~~
+blocksworld/blocksworld.hpp:80:18: error: ‘below’ was not declared in this scope
+             else below[pickUp] = NULL;
+                  ^~~~~
+blocksworld/blocksworld.hpp:81:17: error: ambiguous overload for ‘operator=’ (operand types are ‘const Blocksworld’ and ‘Blocksworld::Cost {aka unsigned int}’)
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:11:7: note: candidate: Blocksworld& Blocksworld::operator=(const Blocksworld&) <near match>
+ class Blocksworld{
+       ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:11:7: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid user-defined conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘const Blocksworld&’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:23:2: note: candidate is: Blocksworld::Blocksworld(FILE*) <near match>
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:23:2: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+blocksworld/blocksworld.hpp:23:2: note:   initializing argument 1 of ‘Blocksworld::Blocksworld(FILE*)’
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:11:7: note: candidate: Blocksworld& Blocksworld::operator=(Blocksworld&&) <near match>
+ class Blocksworld{
+       ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:11:7: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid user-defined conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘Blocksworld&&’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:23:2: note: candidate is: Blocksworld::Blocksworld(FILE*) <near match>
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:23:2: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+blocksworld/blocksworld.hpp:23:2: note:   initializing argument 1 of ‘Blocksworld::Blocksworld(FILE*)’
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:81:17: error: conversion to non-const reference type ‘class Blocksworld&&’ from rvalue of type ‘Blocksworld’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp: In constructor ‘Blocksworld::Operators::Operators(const Blocksworld&, const Blocksworld::State&)’:
+blocksworld/blocksworld.hpp:136:31: error: ‘nblocks’ was not declared in this scope
+             for(int i = 0; i< nblocks; i++){
+                               ^~~~~~~
+blocksworld/blocksworld.hpp:137:22: error: ‘const struct Blocksworld::State’ has no member named ‘above’
+                 if(s.above[i] == NULL && s.below != NULL) stacks++;
+                      ^~~~~
+blocksworld/blocksworld.hpp:137:44: error: ‘const struct Blocksworld::State’ has no member named ‘below’
+                 if(s.above[i] == NULL && s.below != NULL) stacks++;
+                                            ^~~~~
+blocksworld/blocksworld.hpp:138:27: error: ‘const struct Blocksworld::State’ has no member named ‘above’
+                 else if(s.above[i] == NULL) tabled++;
+                           ^~~~~
+blocksworld/blocksworld.hpp:141:13: error: expected ‘;’ before ‘int’
+             int * tops= new Oper[stacks+tabled]
+             ^~~
+blocksworld/blocksworld.hpp:143:28: error: ‘i’ was not declared in this scope
+             for(int i = 0; i< nblocks; i++){
+                            ^
+blocksworld/blocksworld.hpp:143:31: error: ‘nblocks’ was not declared in this scope
+             for(int i = 0; i< nblocks; i++){
+                               ^~~~~~~
+blocksworld/blocksworld.hpp:149:13: error: ‘pos’ was not declared in this scope
+             pos = 0;
+             ^~~
+blocksworld/blocksworld.hpp:150:30: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+             *mvs = new Oper[n]
+                              ^
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:150:30: error: no match for ‘operator=’ (operand types are ‘Blocksworld::Oper’ and ‘Blocksworld::Oper*’)
+             *mvs = new Oper[n]
+                              ^
+blocksworld/blocksworld.hpp:25:12: note: candidate: Blocksworld::Oper& Blocksworld::Oper::operator=(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   no known conversion for argument 1 from ‘Blocksworld::Oper*’ to ‘const Blocksworld::Oper&’
+blocksworld/blocksworld.hpp:25:12: note: candidate: Blocksworld::Oper& Blocksworld::Oper::operator=(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   no known conversion for argument 1 from ‘Blocksworld::Oper*’ to ‘Blocksworld::Oper&&’
+blocksworld/blocksworld.hpp:162:13: error: ‘del’ was not declared in this scope
+             del tops;
+             ^~~
+blocksworld/blocksworld.hpp: In constructor ‘Blocksworld::Edge::Edge(const Blocksworld&, const Blocksworld::State&, Blocksworld::Oper)’:
+blocksworld/blocksworld.hpp:199:55: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Edge(const Blocksworld&, const State& s, Oper move) {
+                                                       ^
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:199:3: error: uninitialized reference member in ‘struct Blocksworld::State&’ [-fpermissive]
+   Edge(const Blocksworld&, const State& s, Oper move) {
+   ^~~~
+blocksworld/blocksworld.hpp:191:10: note: ‘Blocksworld::State& Blocksworld::Edge::state’ should be initialized
+   State &state;
+          ^~~~~
+blocksworld/blocksworld.hpp:202:33: error: invalid use of ‘Blocksworld::Oper::from’
+             Block inHand = move.from;
+                                 ^~~~
+blocksworld/blocksworld.hpp:203:31: error: ‘below’ was not declared in this scope
+             Block oldBottom = below[inHand];
+                               ^~~~~
+blocksworld/blocksworld.hpp:204:29: error: converting to non-pointer type ‘Blocksworld::Block {aka short unsigned int}’ from NULL [-Werror=conversion-null]
+             if (oldBottom = NULL) oldBottom = 0;
+                             ^~~~
+blocksworld/blocksworld.hpp:204:33: error: suggest parentheses around assignment used as truth value [-Werror=parentheses]
+             if (oldBottom = NULL) oldBottom = 0;
+                                 ^
+blocksworld/blocksworld.hpp:208:33: error: no matching function for call to ‘Blocksworld::State::moveblock(Blocksworld::Oper&)’
+             state.moveblock(move);
+                                 ^
+blocksworld/blocksworld.hpp:45:14: note: candidate: void Blocksworld::State::moveblock(Blocksworld::Oper, const Blocksworld&)
+         void moveblock(Oper move, const Blocksworld &d.)
+              ^~~~~~~~~
+blocksworld/blocksworld.hpp:45:14: note:   candidate expects 2 arguments, 1 provided
+blocksworld/blocksworld.hpp: In destructor ‘Blocksworld::Edge::~Edge()’:
+blocksworld/blocksworld.hpp:217:34: error: no matching function for call to ‘Blocksworld::State::moveblock(Blocksworld::Oper&)’
+             state.moveblock(revop);
+                                  ^
+blocksworld/blocksworld.hpp:45:14: note: candidate: void Blocksworld::State::moveblock(Blocksworld::Oper, const Blocksworld&)
+         void moveblock(Oper move, const Blocksworld &d.)
+              ^~~~~~~~~
+blocksworld/blocksworld.hpp:45:14: note:   candidate expects 2 arguments, 1 provided
+blocksworld/blocksworld.hpp: In member function ‘void Blocksworld::dumpstate(FILE*, const Blocksworld::State&) const’:
+blocksworld/blocksworld.hpp:239:24: error: ‘fatal’ was not declared in this scope
+   fatal("Unimplemented");
+                        ^
+blocksworld/blocksworld.hpp: In static member function ‘static Blocksworld::Cost Blocksworld::noop(Blocksworld::Block*, Blocksworld::Block*)’:
+blocksworld/blocksworld.hpp:249:27: error: ‘blocks’ was not declared in this scope
+         for(Block block : blocks)
+                           ^~~~~~
+blocksworld/blocksworld.hpp:251:32: error: NULL used in arithmetic [-Werror=pointer-arith]
+             if(below[block] == NULL)
+                                ^~~~
+blocksworld/blocksworld.hpp:255:34: error: NULL used in arithmetic [-Werror=pointer-arith]
+                 while(current != NULL){
+                                  ^~~~
+blocksworld/blocksworld.hpp:256:56: error: ‘goal’ was not declared in this scope
+                     if(!incorrect && below[current] != goal[current]) incorrect = true;
+                                                        ^~~~
+blocksworld/blocksworld.cc: In constructor ‘Blocksworld::Blocksworld(FILE*)’:
+blocksworld/blocksworld.cc:8:24: error: ‘nblocks’ was not declared in this scope
+  if (fscanf(in, "%u", &nblocks) != 1)
+                        ^~~~~~~
+blocksworld/blocksworld.cc:11:6: error: ‘nblocks’ was not declared in this scope
+  if (nblocks != Nblocks)
+      ^~~~~~~
+blocksworld/blocksworld.cc:11:17: error: ‘Nblocks’ was not declared in this scope
+  if (nblocks != Nblocks)
+                 ^~~~~~~
+blocksworld/blocksworld.cc:14:14: error: too few arguments to function ‘int fscanf(FILE*, const char*, ...)’
+     fscanf(in);
+              ^
+In file included from /usr/include/c++/6/cstdio:42:0,
+                 from blocksworld/blocksworld.hpp:1,
+                 from blocksworld/blocksworld.cc:1:
+/usr/include/stdio.h:427:12: note: declared here
+ extern int fscanf (FILE *__restrict __stream,
+            ^~~~~~
+blocksworld/blocksworld.cc:15:31: error: ‘nblocks’ was not declared in this scope
+  for (unsigned int i = 0; i < nblocks; i++) {
+                               ^~~~~~~
+blocksworld/blocksworld.cc:16:25: error: ‘goal’ was not declared in this scope
+   if (fscanf(in, " %d", goal+i) != 1)
+                         ^~~~
+blocksworld/blocksworld.cc:7:15: error: unused variable ‘ncakes’ [-Werror=unused-variable]
+  unsigned int ncakes;
+               ^~~~~~
+blocksworld/blocksworld.cc: In member function ‘Blocksworld::State Blocksworld::initialstate()’:
+blocksworld/blocksworld.cc:24:31: error: ‘nblocks’ was not declared in this scope
+  for (unsigned int i = 0; i < nblocks; i++){
+                               ^~~~~~~
+blocksworld/blocksworld.cc:25:11: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+         s.lower[i] = init[i];
+           ^~~~~
+blocksworld/blocksworld.cc:25:22: error: ‘init’ was not declared in this scope
+         s.lower[i] = init[i];
+                      ^~~~
+blocksworld/blocksworld.cc:26:14: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+         if(s.lower[i]!=NULL) s.upper[s.lower[i]] = i;
+              ^~~~~
+blocksworld/blocksworld.cc:26:32: error: ‘struct Blocksworld::State’ has no member named ‘upper’
+         if(s.lower[i]!=NULL) s.upper[s.lower[i]] = i;
+                                ^~~~~
+blocksworld/blocksworld.cc:26:40: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+         if(s.lower[i]!=NULL) s.upper[s.lower[i]] = i;
+                                        ^~~~~
+blocksworld/blocksworld.cc:28:31: error: ‘nblocks’ was not declared in this scope
+     for(unsigned int i = 0; i<nblocks; i++){
+                               ^~~~~~~
+blocksworld/blocksworld.cc:29:14: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+         if(s.lower[i]==0) s.lower[i] = NULL;
+              ^~~~~
+blocksworld/blocksworld.cc:29:29: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+         if(s.lower[i]==0) s.lower[i] = NULL;
+                             ^~~~~
+blocksworld/blocksworld.cc:30:16: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+         else s.lower[i]--;
+                ^~~~~
+blocksworld/blocksworld.cc:31:14: error: ‘struct Blocksworld::State’ has no member named ‘upper’
+         if(s.upper[i]==0) s.upper[i] = NULL;
+              ^~~~~
+blocksworld/blocksworld.cc:31:29: error: ‘struct Blocksworld::State’ has no member named ‘upper’
+         if(s.upper[i]==0) s.upper[i] = NULL;
+                             ^~~~~
+blocksworld/blocksworld.cc:32:16: error: ‘struct Blocksworld::State’ has no member named ‘upper’
+         else s.upper[i]--;
+                ^~~~~
+blocksworld/blocksworld.cc:34:15: error: ‘struct Blocksworld::State’ has no member named ‘upper’
+  s.h = noop(s.upper, s.lower, goal);
+               ^~~~~
+blocksworld/blocksworld.cc:34:24: error: ‘struct Blocksworld::State’ has no member named ‘lower’
+  s.h = noop(s.upper, s.lower, goal);
+                        ^~~~~
+blocksworld/blocksworld.cc:34:31: error: ‘goal’ was not declared in this scope
+  s.h = noop(s.upper, s.lower, goal);
+                               ^~~~
+In file included from /usr/include/boost/assert.hpp:58:0,
+                 from /usr/include/boost/move/detail/type_traits.hpp:33,
+                 from /usr/include/boost/move/traits.hpp:31,
+                 from /usr/include/boost/move/utility.hpp:30,
+                 from /usr/include/boost/optional/optional.hpp:46,
+                 from /usr/include/boost/optional.hpp:15,
+                 from blocksworld/../utils/utils.hpp:9,
+                 from blocksworld/blocksworld.cc:2:
+blocksworld/blocksworld.cc: In member function ‘Blocksworld::Cost Blocksworld::pathcost(const std::vector<Blocksworld::State>&, const std::vector<Blocksworld::Oper>&)’:
+blocksworld/blocksworld.cc:45:19: error: ‘struct Blocksworld::State’ has no member named ‘eq’
+   assert (e.state.eq(this, path[i]));
+                   ^
+cc1plus: all warnings being treated as errors
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:21:18: error: ‘Oper’ does not name a type
+     static const Oper Nop = Oper(NULL, NULL);//a "do nothing" action
+                  ^~~~
+blocksworld/blocksworld.hpp:40:21: error: ‘nblocks’ was not declared in this scope
+         Block above[nblocks];
+                     ^~~~~~~
+blocksworld/blocksworld.hpp:41:21: error: ‘nblocks’ was not declared in this scope
+         Block below[nblocks];
+                     ^~~~~~~
+blocksworld/blocksworld.hpp:45:55: error: expected ‘,’ or ‘...’ before ‘.’ token
+         void moveblock(Oper move, const Blocksworld &d.)
+                                                       ^
+blocksworld/blocksworld.hpp:244:16: error: ‘nblocks’ was not declared in this scope
+     Block init[nblocks];
+                ^~~~~~~
+blocksworld/blocksworld.hpp:245:16: error: ‘nblocks’ was not declared in this scope
+     Block goal[nblocks];
+                ^~~~~~~
+blocksworld/blocksworld.hpp: In constructor ‘Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)’:
+blocksworld/blocksworld.hpp:30:18: error: expected unqualified-id before ‘=’ token
+             from = b1;
+                  ^
+blocksworld/blocksworld.hpp:31:16: error: expected unqualified-id before ‘=’ token
+             to = b2;
+                ^
+blocksworld/blocksworld.hpp: In member function ‘void Blocksworld::State::moveblock(Blocksworld::Oper, const Blocksworld&)’:
+blocksworld/blocksworld.hpp:47:33: error: invalid use of ‘Blocksworld::Oper::from’
+             Block pickUp = move.from;
+                                 ^~~~
+blocksworld/blocksworld.hpp:48:32: error: invalid use of ‘Blocksworld::Oper::to’
+             Block putOn = move.to;
+                                ^~
+blocksworld/blocksworld.hpp:49:16: error: ‘below’ was not declared in this scope
+             if(below[pickUp]!=d.goal[pickUp]) h--;
+                ^~~~~
+blocksworld/blocksworld.hpp:49:33: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+             if(below[pickUp]!=d.goal[pickUp]) h--;
+                                 ^~~~
+blocksworld/blocksworld.hpp:53:30: error: NULL used in arithmetic [-Werror=pointer-arith]
+                 while(block!=NULL)
+                              ^~~~
+blocksworld/blocksworld.hpp:55:42: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+                     if(below[block] != d.goal[block]){
+                                          ^~~~
+blocksworld/blocksworld.hpp:62:16: error: ‘below’ was not declared in this scope
+             if(below[pickUp] != NULL) above[below[pickUp]] = NULL;
+                ^~~~~
+blocksworld/blocksworld.hpp:62:39: error: ‘above’ was not declared in this scope
+             if(below[pickUp] != NULL) above[below[pickUp]] = NULL;
+                                       ^~~~~
+blocksworld/blocksworld.hpp:64:20: error: ‘below’ was not declared in this scope
+                 if(below[pickUp]!=d.goal[putOn]) h++;
+                    ^~~~~
+blocksworld/blocksworld.hpp:64:37: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+                 if(below[pickUp]!=d.goal[putOn]) h++;
+                                     ^~~~
+blocksworld/blocksworld.hpp:68:34: error: NULL used in arithmetic [-Werror=pointer-arith]
+                     while(block!=NULL)
+                                  ^~~~
+blocksworld/blocksworld.hpp:70:46: error: ‘const class Blocksworld’ has no member named ‘goal’; did you mean ‘isgoal’?
+                         if(below[block] != d.goal[block]){
+                                              ^~~~
+blocksworld/blocksworld.hpp:77:17: error: ‘above’ was not declared in this scope
+                 above[putOn - 1] = pickUp;
+                 ^~~~~
+blocksworld/blocksworld.hpp:78:17: error: ‘below’ was not declared in this scope
+                 below[pickUp] = putOn-1;
+                 ^~~~~
+blocksworld/blocksworld.hpp:80:18: error: ‘below’ was not declared in this scope
+             else below[pickUp] = NULL;
+                  ^~~~~
+blocksworld/blocksworld.hpp:81:17: error: ambiguous overload for ‘operator=’ (operand types are ‘const Blocksworld’ and ‘Blocksworld::Cost {aka unsigned int}’)
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:11:7: note: candidate: Blocksworld& Blocksworld::operator=(const Blocksworld&) <near match>
+ class Blocksworld{
+       ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:11:7: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid user-defined conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘const Blocksworld&’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:23:2: note: candidate is: Blocksworld::Blocksworld(FILE*) <near match>
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:23:2: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+blocksworld/blocksworld.hpp:23:2: note:   initializing argument 1 of ‘Blocksworld::Blocksworld(FILE*)’
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:11:7: note: candidate: Blocksworld& Blocksworld::operator=(Blocksworld&&) <near match>
+ class Blocksworld{
+       ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:11:7: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid user-defined conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘Blocksworld&&’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:23:2: note: candidate is: Blocksworld::Blocksworld(FILE*) <near match>
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:23:2: note:   conversion of argument 1 would be ill-formed:
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp:81:17: error: invalid conversion from ‘Blocksworld::Cost {aka unsigned int}’ to ‘FILE* {aka _IO_FILE*}’ [-fpermissive]
+blocksworld/blocksworld.hpp:23:2: note:   initializing argument 1 of ‘Blocksworld::Blocksworld(FILE*)’
+  Blocksworld(FILE*);
+  ^~~~~~~~~~~
+blocksworld/blocksworld.hpp:81:17: error: conversion to non-const reference type ‘class Blocksworld&&’ from rvalue of type ‘Blocksworld’ [-fpermissive]
+             d = h;
+                 ^
+blocksworld/blocksworld.hpp: In constructor ‘Blocksworld::Operators::Operators(const Blocksworld&, const Blocksworld::State&)’:
+blocksworld/blocksworld.hpp:136:31: error: ‘nblocks’ was not declared in this scope
+             for(int i = 0; i< nblocks; i++){
+                               ^~~~~~~
+blocksworld/blocksworld.hpp:137:22: error: ‘const struct Blocksworld::State’ has no member named ‘above’
+                 if(s.above[i] == NULL && s.below != NULL) stacks++;
+                      ^~~~~
+blocksworld/blocksworld.hpp:137:44: error: ‘const struct Blocksworld::State’ has no member named ‘below’
+                 if(s.above[i] == NULL && s.below != NULL) stacks++;
+                                            ^~~~~
+blocksworld/blocksworld.hpp:138:27: error: ‘const struct Blocksworld::State’ has no member named ‘above’
+                 else if(s.above[i] == NULL) tabled++;
+                           ^~~~~
+blocksworld/blocksworld.hpp:141:13: error: expected ‘;’ before ‘int’
+             int * tops= new Oper[stacks+tabled]
+             ^~~
+blocksworld/blocksworld.hpp:143:28: error: ‘i’ was not declared in this scope
+             for(int i = 0; i< nblocks; i++){
+                            ^
+blocksworld/blocksworld.hpp:143:31: error: ‘nblocks’ was not declared in this scope
+             for(int i = 0; i< nblocks; i++){
+                               ^~~~~~~
+blocksworld/blocksworld.hpp:149:13: error: ‘pos’ was not declared in this scope
+             pos = 0;
+             ^~~
+blocksworld/blocksworld.hpp:150:30: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+             *mvs = new Oper[n]
+                              ^
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:150:30: error: no match for ‘operator=’ (operand types are ‘Blocksworld::Oper’ and ‘Blocksworld::Oper*’)
+             *mvs = new Oper[n]
+                              ^
+blocksworld/blocksworld.hpp:25:12: note: candidate: Blocksworld::Oper& Blocksworld::Oper::operator=(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   no known conversion for argument 1 from ‘Blocksworld::Oper*’ to ‘const Blocksworld::Oper&’
+blocksworld/blocksworld.hpp:25:12: note: candidate: Blocksworld::Oper& Blocksworld::Oper::operator=(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   no known conversion for argument 1 from ‘Blocksworld::Oper*’ to ‘Blocksworld::Oper&&’
+blocksworld/blocksworld.hpp:162:13: error: ‘del’ was not declared in this scope
+             del tops;
+             ^~~
+blocksworld/blocksworld.hpp: In constructor ‘Blocksworld::Edge::Edge(const Blocksworld&, const Blocksworld::State&, Blocksworld::Oper)’:
+blocksworld/blocksworld.hpp:199:55: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Edge(const Blocksworld&, const State& s, Oper move) {
+                                                       ^
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:199:3: error: uninitialized reference member in ‘struct Blocksworld::State&’ [-fpermissive]
+   Edge(const Blocksworld&, const State& s, Oper move) {
+   ^~~~
+blocksworld/blocksworld.hpp:191:10: note: ‘Blocksworld::State& Blocksworld::Edge::state’ should be initialized
+   State &state;
+          ^~~~~
+blocksworld/blocksworld.hpp:202:33: error: invalid use of ‘Blocksworld::Oper::from’
+             Block inHand = move.from;
+                                 ^~~~
+blocksworld/blocksworld.hpp:203:31: error: ‘below’ was not declared in this scope
+             Block oldBottom = below[inHand];
+                               ^~~~~
+blocksworld/blocksworld.hpp:204:29: error: converting to non-pointer type ‘Blocksworld::Block {aka short unsigned int}’ from NULL [-Werror=conversion-null]
+             if (oldBottom = NULL) oldBottom = 0;
+                             ^~~~
+blocksworld/blocksworld.hpp:204:33: error: suggest parentheses around assignment used as truth value [-Werror=parentheses]
+             if (oldBottom = NULL) oldBottom = 0;
+                                 ^
+blocksworld/blocksworld.hpp:208:33: error: no matching function for call to ‘Blocksworld::State::moveblock(Blocksworld::Oper&)’
+             state.moveblock(move);
+                                 ^
+blocksworld/blocksworld.hpp:45:14: note: candidate: void Blocksworld::State::moveblock(Blocksworld::Oper, const Blocksworld&)
+         void moveblock(Oper move, const Blocksworld &d.)
+              ^~~~~~~~~
+blocksworld/blocksworld.hpp:45:14: note:   candidate expects 2 arguments, 1 provided
+blocksworld/blocksworld.hpp: In destructor ‘Blocksworld::Edge::~Edge()’:
+blocksworld/blocksworld.hpp:217:34: error: no matching function for call to ‘Blocksworld::State::moveblock(Blocksworld::Oper&)’
+             state.moveblock(revop);
+                                  ^
+blocksworld/blocksworld.hpp:45:14: note: candidate: void Blocksworld::State::moveblock(Blocksworld::Oper, const Blocksworld&)
+         void moveblock(Oper move, const Blocksworld &d.)
+              ^~~~~~~~~
+blocksworld/blocksworld.hpp:45:14: note:   candidate expects 2 arguments, 1 provided
+blocksworld/blocksworld.hpp: In member function ‘void Blocksworld::dumpstate(FILE*, const Blocksworld::State&) const’:
+blocksworld/blocksworld.hpp:239:24: error: ‘fatal’ was not declared in this scope
+   fatal("Unimplemented");
+                        ^
+blocksworld/blocksworld.hpp: In static member function ‘static Blocksworld::Cost Blocksworld::noop(Blocksworld::Block*, Blocksworld::Block*)’:
+blocksworld/blocksworld.hpp:249:27: error: ‘blocks’ was not declared in this scope
+         for(Block block : blocks)
+                           ^~~~~~
+blocksworld/blocksworld.hpp:251:32: error: NULL used in arithmetic [-Werror=pointer-arith]
+             if(below[block] == NULL)
+                                ^~~~
+blocksworld/blocksworld.hpp:255:34: error: NULL used in arithmetic [-Werror=pointer-arith]
+                 while(current != NULL){
+                                  ^~~~
+blocksworld/blocksworld.hpp:256:56: error: ‘goal’ was not declared in this scope
+                     if(!incorrect && below[current] != goal[current]) incorrect = true;
+                                                        ^~~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Astar<Blocksworld>::Node; Node = Astar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Astar<Blocksworld>::Node; Node = Astar<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/astar.hpp:56:50:   required from ‘Astar<D>::Astar(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:78:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Astar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+     add(b, f, sz, p, Ops::key(p).hash(dom));
+                      ~~~~~~~~~~~~^~~~
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Astar_dump<Blocksworld>::Node; Node = Astar_dump<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Astar_dump<Blocksworld>::Node; Node = Astar_dump<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/astar-dump.hpp:59:50:   required from ‘Astar_dump<D>::Astar_dump(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:80:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Astar_dump<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Wastar<Blocksworld>::Node; Node = Wastar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Wastar<Blocksworld>::Node; Node = Wastar<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/wastar.hpp:55:29:   required from ‘Wastar<D>::Wastar(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:82:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Wastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Greedy<Blocksworld, false>::Node; Node = Greedy<Blocksworld, false>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Greedy<Blocksworld, false>::Node; Node = Greedy<Blocksworld, false>::Node; D = Blocksworld]’
+blocksworld/../search/greedy.hpp:57:50:   required from ‘Greedy<D, speedy>::Greedy(int, const char**) [with D = Blocksworld; bool speedy = false]’
+blocksworld/../search/main.hpp:84:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Greedy<Blocksworld, false>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Greedy<Blocksworld, true>::Node; Node = Greedy<Blocksworld, true>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Greedy<Blocksworld, true>::Node; Node = Greedy<Blocksworld, true>::Node; D = Blocksworld]’
+blocksworld/../search/greedy.hpp:57:50:   required from ‘Greedy<D, speedy>::Greedy(int, const char**) [with D = Blocksworld; bool speedy = true]’
+blocksworld/../search/main.hpp:86:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Greedy<Blocksworld, true>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Bugsy<Blocksworld>::Node; Node = Bugsy<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Bugsy<Blocksworld>::Node; Node = Bugsy<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/bugsy.hpp:91:19:   required from ‘Bugsy<D>::Bugsy(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:88:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Bugsy<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Bugsy_slim<Blocksworld>::Node; Node = Bugsy_slim<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Bugsy_slim<Blocksworld>::Node; Node = Bugsy_slim<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/bugsy-slim.hpp:72:19:   required from ‘Bugsy_slim<D>::Bugsy_slim(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:90:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Bugsy_slim<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Arastar<Blocksworld>::Node; Node = Arastar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Arastar<Blocksworld>::Node; Node = Arastar<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/arastar.hpp:90:29:   required from ‘Arastar<D>::Arastar(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:92:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Arastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Dtastar_dump<Blocksworld>::LssNode::Nodes; Node = Dtastar_dump<Blocksworld>::LssNode; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Dtastar_dump<Blocksworld>::LssNode::Nodes; Node = Dtastar_dump<Blocksworld>::LssNode; D = Blocksworld]’
+blocksworld/../search/dtastar-dump.hpp:171:17:   required from ‘Dtastar_dump<D>::Dtastar_dump(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:98:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Dtastar_dump<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Lsslrtastar2<Blocksworld>::LssNode::Nodes; Node = Lsslrtastar2<Blocksworld>::LssNode; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Lsslrtastar2<Blocksworld>::LssNode::Nodes; Node = Lsslrtastar2<Blocksworld>::LssNode; D = Blocksworld]’
+blocksworld/../search/lsslrtastar.hpp:186:13:   required from ‘Lsslrtastar2<D>::Lsslrtastar2(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:100:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Lsslrtastar2<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Fhatlrtastar<Blocksworld>::LssNode::Nodes; Node = Fhatlrtastar<Blocksworld>::LssNode; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Fhatlrtastar<Blocksworld>::LssNode::Nodes; Node = Fhatlrtastar<Blocksworld>::LssNode; D = Blocksworld]’
+blocksworld/../search/fhatlrtastar.hpp:174:16:   required from ‘Fhatlrtastar<D>::Fhatlrtastar(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:102:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Fhatlrtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = BeamSearch<Blocksworld>::Node; Node = BeamSearch<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = BeamSearch<Blocksworld>::Node; Node = BeamSearch<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/beam.hpp:64:50:   required from ‘BeamSearch<D>::BeamSearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:106:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘BeamSearch<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = BeamSearchMM<Blocksworld>::Node; Node = BeamSearchMM<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = BeamSearchMM<Blocksworld>::Node; Node = BeamSearchMM<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/beam-mm.hpp:65:50:   required from ‘BeamSearchMM<D>::BeamSearchMM(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:108:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘BeamSearchMM<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Hhatgreedy<Blocksworld>::Node; Node = Hhatgreedy<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Hhatgreedy<Blocksworld>::Node; Node = Hhatgreedy<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/hhatgreedy.hpp:62:22:   required from ‘Hhatgreedy<D>::Hhatgreedy(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:110:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Hhatgreedy<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Dtastar_dump<Blocksworld>::Node; Node = Dtastar_dump<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Dtastar_dump<Blocksworld>::Node; Node = Dtastar_dump<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/dtastar-dump.hpp:75:34:   required from ‘Dtastar_dump<D>::Nodes::Nodes(unsigned int) [with D = Blocksworld]’
+blocksworld/../search/dtastar-dump.hpp:171:17:   required from ‘Dtastar_dump<D>::Dtastar_dump(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:98:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Dtastar_dump<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Lsslrtastar2<Blocksworld>::Node; Node = Lsslrtastar2<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Lsslrtastar2<Blocksworld>::Node; Node = Lsslrtastar2<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/lsslrtastar.hpp:87:34:   required from ‘Lsslrtastar2<D>::Nodes::Nodes(unsigned int) [with D = Blocksworld]’
+blocksworld/../search/lsslrtastar.hpp:186:13:   required from ‘Lsslrtastar2<D>::Lsslrtastar2(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:100:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Lsslrtastar2<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Fhatlrtastar<Blocksworld>::Node; Node = Fhatlrtastar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Fhatlrtastar<Blocksworld>::Node; Node = Fhatlrtastar<Blocksworld>::Node; D = Blocksworld]’
+blocksworld/../search/fhatlrtastar.hpp:75:34:   required from ‘Fhatlrtastar<D>::Nodes::Nodes(unsigned int) [with D = Blocksworld]’
+blocksworld/../search/fhatlrtastar.hpp:174:16:   required from ‘Fhatlrtastar<D>::Fhatlrtastar(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:102:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Fhatlrtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Dtastar<Blocksworld>::Graph; Node = Dtastar<Blocksworld>::Graph::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Dtastar<Blocksworld>::Graph; Node = Dtastar<Blocksworld>::Graph::Node; D = Blocksworld]’
+blocksworld/../search/dtastar.hpp:80:70:   required from ‘Dtastar<D>::Graph::Graph(SearchAlgorithm<D>&, unsigned int) [with D = Blocksworld]’
+blocksworld/../search/dtastar.hpp:404:18:   required from ‘Dtastar<D>::Dtastar(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:104:10:   required from ‘SearchAlgorithm<D>* getsearch(int, const char**) [with D = Blocksworld]’
+blocksworld/../search/main.hpp:34:18:   required from ‘Result<D> search(D&, int, const char**) [with D = Blocksworld]’
+blocksworld/main.cc:8:35:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Dtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+In file included from blocksworld/../search/main.hpp:15:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam.hpp: In instantiation of ‘void BeamSearch<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’:
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/beam.hpp:104:35: error: ‘BeamSearch<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+     unsigned long hash = n->state.hash(&d);
+                          ~~~~~~~~~^~~~
+In file included from /usr/include/c++/6/cassert:44:0,
+                 from blocksworld/../search/../utils/geom2d.hpp:8,
+                 from blocksworld/../search/lsslrtastar.hpp:4,
+                 from blocksworld/../search/main.hpp:11,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/dtastar.hpp: In instantiation of ‘void Dtastar<D>::search(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’:
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar.hpp:543:15: error: ‘Dtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘eq’
+   assert (pkd.eq(&d, cur->state));
+           ~~~~^
+In file included from blocksworld/../search/main.hpp:3:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/idastar.hpp: In instantiation of ‘void Idastar<D>::search(D&, Idastar<D>::State&) [with D = Blocksworld; Idastar<D>::State = Blocksworld::State]’:
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/idastar.hpp:28:11: error: ‘Nop’ is not a member of ‘Blocksworld’
+    if (dfs(d, s0, D::Nop, Cost(0)))
+        ~~~^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from blocksworld/../search/main.hpp:17:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/hhatgreedy.hpp: In instantiation of ‘Hhatgreedy<D>::Node* Hhatgreedy<D>::init(D&, Hhatgreedy<D>::State&) [with D = Blocksworld; Hhatgreedy<D>::State = Blocksworld::State]’:
+blocksworld/../search/hhatgreedy.hpp:79:18:   required from ‘void Hhatgreedy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/hhatgreedy.hpp:221:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Hhatgreedy<Blocksworld>::Node; Node = Hhatgreedy<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/hhatgreedy.hpp:80:3:   required from ‘void Hhatgreedy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Hhatgreedy<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:17:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/hhatgreedy.hpp: In instantiation of ‘void Hhatgreedy<D>::expand(D&, Hhatgreedy<D>::Node*, Hhatgreedy<D>::State&) [with D = Blocksworld; Hhatgreedy<D>::State = Blocksworld::State]’:
+blocksworld/../search/hhatgreedy.hpp:92:10:   required from ‘void Hhatgreedy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/hhatgreedy.hpp:128:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Hhatgreedy<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+blocksworld/../search/hhatgreedy.hpp:138:45: error: ‘Hhatgreedy<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+             unsigned long hash = kid->state.hash(&d);
+                                  ~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:16:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam-mm.hpp: In instantiation of ‘BeamSearchMM<D>::Node* BeamSearchMM<D>::init(D&, BeamSearchMM<D>::State&) [with D = Blocksworld; BeamSearchMM<D>::State = Blocksworld::State]’:
+blocksworld/../search/beam-mm.hpp:88:18:   required from ‘void BeamSearchMM<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/beam-mm.hpp:217:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->pop = n0->op = D::Nop;
+             ~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = BeamSearchMM<Blocksworld>::Node; Node = BeamSearchMM<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/beam-mm.hpp:89:3:   required from ‘void BeamSearchMM<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘BeamSearchMM<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:16:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam-mm.hpp: In instantiation of ‘void BeamSearchMM<D>::expand(D&, BeamSearchMM<D>::Node*, BeamSearchMM<D>::State&) [with D = Blocksworld; BeamSearchMM<D>::State = Blocksworld::State]’:
+blocksworld/../search/beam-mm.hpp:117:11:   required from ‘void BeamSearchMM<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/beam-mm.hpp:153:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘BeamSearchMM<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:15:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam.hpp: In instantiation of ‘BeamSearch<D>::Node* BeamSearch<D>::init(D&, BeamSearch<D>::State&) [with D = Blocksworld; BeamSearch<D>::State = Blocksworld::State]’:
+blocksworld/../search/beam.hpp:87:18:   required from ‘void BeamSearch<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/beam.hpp:207:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->pop = n0->op = D::Nop;
+             ~~~~~~~^~~
+In file included from blocksworld/../search/main.hpp:14:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/dtastar.hpp: In instantiation of ‘Dtastar<D>::Graph::Node* Dtastar<D>::Graph::node(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’:
+blocksworld/../search/dtastar.hpp:514:31:   required from ‘void Dtastar<D>::search(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar.hpp:134:34: error: ‘Dtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+    unsigned long hash = n->state.hash(&d);
+                         ~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:12:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/fhatlrtastar.hpp: In instantiation of ‘Fhatlrtastar<D>::Node* Fhatlrtastar<D>::Nodes::get(D&, Fhatlrtastar<D>::State&) [with D = Blocksworld; Fhatlrtastar<D>::State = Blocksworld::State]’:
+blocksworld/../search/fhatlrtastar.hpp:201:30:   required from ‘void Fhatlrtastar<D>::search(D&, Fhatlrtastar<D>::State&) [with D = Blocksworld; Fhatlrtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/fhatlrtastar.hpp:91:34: error: ‘Fhatlrtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+    unsigned long hash = n->state.hash(&d);
+                         ~~~~~~~~~^~~~
+blocksworld/../search/fhatlrtastar.hpp: In instantiation of ‘Fhatlrtastar<D>::LssNode* Fhatlrtastar<D>::expandLss(D&, Fhatlrtastar<D>::Node*) [with D = Blocksworld]’:
+blocksworld/../search/fhatlrtastar.hpp:206:29:   required from ‘void Fhatlrtastar<D>::search(D&, Fhatlrtastar<D>::State&) [with D = Blocksworld; Fhatlrtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/fhatlrtastar.hpp:298:9: error: ‘Nop’ is not a member of ‘Blocksworld’
+   a->op = D::Nop;
+   ~~~~~~^~~
+In file included from blocksworld/../search/main.hpp:11:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/lsslrtastar.hpp: In instantiation of ‘Lsslrtastar2<D>::Node* Lsslrtastar2<D>::Nodes::get(D&, Lsslrtastar2<D>::State&) [with D = Blocksworld; Lsslrtastar2<D>::State = Blocksworld::State]’:
+blocksworld/../search/lsslrtastar.hpp:225:30:   required from ‘void Lsslrtastar2<D>::search(D&, Lsslrtastar2<D>::State&) [with D = Blocksworld; Lsslrtastar2<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/lsslrtastar.hpp:103:34: error: ‘Lsslrtastar2<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+    unsigned long hash = n->state.hash(&d);
+                         ~~~~~~~~~^~~~
+blocksworld/../search/lsslrtastar.hpp: In instantiation of ‘Lsslrtastar2<D>::LssNode* Lsslrtastar2<D>::expandLss(D&, Lsslrtastar2<D>::Node*) [with D = Blocksworld]’:
+blocksworld/../search/lsslrtastar.hpp:230:29:   required from ‘void Lsslrtastar2<D>::search(D&, Lsslrtastar2<D>::State&) [with D = Blocksworld; Lsslrtastar2<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/lsslrtastar.hpp:324:9: error: ‘Nop’ is not a member of ‘Blocksworld’
+   a->op = D::Nop;
+   ~~~~~~^~~
+In file included from blocksworld/../search/main.hpp:13:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/dtastar-dump.hpp: In instantiation of ‘Dtastar_dump<D>::Node* Dtastar_dump<D>::Nodes::get(D&, Dtastar_dump<D>::State&) [with D = Blocksworld; Dtastar_dump<D>::State = Blocksworld::State]’:
+blocksworld/../search/dtastar-dump.hpp:210:30:   required from ‘void Dtastar_dump<D>::search(D&, Dtastar_dump<D>::State&) [with D = Blocksworld; Dtastar_dump<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar-dump.hpp:91:34: error: ‘Dtastar_dump<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+    unsigned long hash = n->state.hash(&d);
+                         ~~~~~~~~~^~~~
+blocksworld/../search/dtastar-dump.hpp: In instantiation of ‘Dtastar_dump<D>::LssNode* Dtastar_dump<D>::expandLss(D&, Dtastar_dump<D>::Node*) [with D = Blocksworld]’:
+blocksworld/../search/dtastar-dump.hpp:217:29:   required from ‘void Dtastar_dump<D>::search(D&, Dtastar_dump<D>::State&) [with D = Blocksworld; Dtastar_dump<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar-dump.hpp:271:9: error: ‘Nop’ is not a member of ‘Blocksworld’
+   a->op = D::Nop;
+   ~~~~~~^~~
+In file included from blocksworld/../search/main.hpp:10:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/arastar.hpp: In instantiation of ‘Arastar<D>::Node* Arastar<D>::init(D&, Arastar<D>::State&) [with D = Blocksworld; Arastar<D>::State = Blocksworld::State]’:
+blocksworld/../search/arastar.hpp:500:30:   required from ‘void ArastarNORA<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/arastar.hpp:317:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Arastar<Blocksworld>::Node; Node = Arastar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/arastar.hpp:501:3:   required from ‘void ArastarNORA<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Arastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:9:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy-slim.hpp: In instantiation of ‘Bugsy_slim<D>::Node* Bugsy_slim<D>::init(D&, Bugsy_slim<D>::State&) [with D = Blocksworld; Bugsy_slim<D>::State = Blocksworld::State]’:
+blocksworld/../search/bugsy-slim.hpp:94:18:   required from ‘void Bugsy_slim<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/bugsy-slim.hpp:185:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Bugsy_slim<Blocksworld>::Node; Node = Bugsy_slim<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/bugsy-slim.hpp:95:3:   required from ‘void Bugsy_slim<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Bugsy_slim<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:9:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy-slim.hpp: In instantiation of ‘void Bugsy_slim<D>::expand(D&, Bugsy_slim<D>::Node*, Bugsy_slim<D>::State&) [with D = Blocksworld; Bugsy_slim<D>::State = Blocksworld::State]’:
+blocksworld/../search/bugsy-slim.hpp:105:10:   required from ‘void Bugsy_slim<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/bugsy-slim.hpp:149:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Bugsy_slim<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+blocksworld/../search/bugsy-slim.hpp:158:36: error: ‘Bugsy_slim<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+    unsigned long hash = kid->state.hash(&d);
+                         ~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:8:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy.hpp: In instantiation of ‘Bugsy<D>::Node* Bugsy<D>::init(D&, Bugsy<D>::State&) [with D = Blocksworld; Bugsy<D>::State = Blocksworld::State]’:
+blocksworld/../search/bugsy.hpp:135:18:   required from ‘void Bugsy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/bugsy.hpp:302:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Bugsy<Blocksworld>::Node; Node = Bugsy<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/bugsy.hpp:136:3:   required from ‘void Bugsy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Bugsy<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:8:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy.hpp: In instantiation of ‘void Bugsy<D>::expand(D&, Bugsy<D>::Node*, Bugsy<D>::State&) [with D = Blocksworld; Bugsy<D>::State = Blocksworld::State]’:
+blocksworld/../search/bugsy.hpp:146:10:   required from ‘void Bugsy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/bugsy.hpp:210:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Bugsy<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp: In instantiation of ‘Greedy<D, speedy>::Node* Greedy<D, speedy>::init(D&, Greedy<D, speedy>::State&) [with D = Blocksworld; bool speedy = true; Greedy<D, speedy>::State = Blocksworld::State]’:
+blocksworld/../search/greedy.hpp:74:18:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = true; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/greedy.hpp:165:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Greedy<Blocksworld, true>::Node; Node = Greedy<Blocksworld, true>::Node; D = Blocksworld]’:
+blocksworld/../search/greedy.hpp:75:3:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = true; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Greedy<Blocksworld, true>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp: In instantiation of ‘void Greedy<D, speedy>::expand(D&, Greedy<D, speedy>::Node*, Greedy<D, speedy>::State&) [with D = Blocksworld; bool speedy = true; Greedy<D, speedy>::State = Blocksworld::State]’:
+blocksworld/../search/greedy.hpp:87:10:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = true; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/greedy.hpp:114:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Greedy<Blocksworld, true>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+blocksworld/../search/greedy.hpp: In instantiation of ‘Greedy<D, speedy>::Node* Greedy<D, speedy>::init(D&, Greedy<D, speedy>::State&) [with D = Blocksworld; bool speedy = false; Greedy<D, speedy>::State = Blocksworld::State]’:
+blocksworld/../search/greedy.hpp:74:18:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = false; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/greedy.hpp:165:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Greedy<Blocksworld, false>::Node; Node = Greedy<Blocksworld, false>::Node; D = Blocksworld]’:
+blocksworld/../search/greedy.hpp:75:3:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = false; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Greedy<Blocksworld, false>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp: In instantiation of ‘void Greedy<D, speedy>::expand(D&, Greedy<D, speedy>::Node*, Greedy<D, speedy>::State&) [with D = Blocksworld; bool speedy = false; Greedy<D, speedy>::State = Blocksworld::State]’:
+blocksworld/../search/greedy.hpp:87:10:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = false; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/greedy.hpp:114:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Greedy<Blocksworld, false>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:6:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/wastar.hpp: In instantiation of ‘Wastar<D>::Node* Wastar<D>::init(D&, Wastar<D>::State&) [with D = Blocksworld; Wastar<D>::State = Blocksworld::State]’:
+blocksworld/../search/wastar.hpp:77:18:   required from ‘void Wastar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/wastar.hpp:168:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->op = n0->pop = D::Nop;
+            ~~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Wastar<Blocksworld>::Node; Node = Wastar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/wastar.hpp:78:3:   required from ‘void Wastar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Wastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:6:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/wastar.hpp: In instantiation of ‘void Wastar<D>::expand(D&, Wastar<D>::Node*, Wastar<D>::State&) [with D = Blocksworld; Wastar<D>::State = Blocksworld::State]’:
+blocksworld/../search/wastar.hpp:90:10:   required from ‘void Wastar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/wastar.hpp:118:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Wastar<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:5:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar-dump.hpp: In instantiation of ‘Astar_dump<D>::Node* Astar_dump<D>::init(D&, Astar_dump<D>::State&) [with D = Blocksworld; Astar_dump<D>::State = Blocksworld::State]’:
+blocksworld/../search/astar-dump.hpp:71:18:   required from ‘void Astar_dump<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/astar-dump.hpp:191:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->pop = n0->op = D::Nop;
+             ~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Astar_dump<Blocksworld>::Node; Node = Astar_dump<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/astar-dump.hpp:72:3:   required from ‘void Astar_dump<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Astar_dump<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:5:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar-dump.hpp: In instantiation of ‘void Astar_dump<D>::expand(D&, Astar_dump<D>::Node*, Astar_dump<D>::State&) [with D = Blocksworld; Astar_dump<D>::State = Blocksworld::State]’:
+blocksworld/../search/astar-dump.hpp:85:10:   required from ‘void Astar_dump<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/astar-dump.hpp:130:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Astar_dump<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:4:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar.hpp: In instantiation of ‘Astar<D>::Node* Astar<D>::init(D&, Astar<D>::State&) [with D = Blocksworld; Astar<D>::State = Blocksworld::State]’:
+blocksworld/../search/astar.hpp:68:18:   required from ‘void Astar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/astar.hpp:160:20: error: ‘Nop’ is not a member of ‘Blocksworld’
+   n0->pop = n0->op = D::Nop;
+             ~~~~~~~^~~
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::add(Node*) [with Ops = Astar<Blocksworld>::Node; Node = Astar<Blocksworld>::Node; D = Blocksworld]’:
+blocksworld/../search/astar.hpp:69:3:   required from ‘void Astar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:53:22: error: ‘Astar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   add(n, Ops::key(n).hash(dom));
+          ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:4:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar.hpp: In instantiation of ‘void Astar<D>::expand(D&, Astar<D>::Node*, Astar<D>::State&) [with D = Blocksworld; Astar<D>::State = Blocksworld::State]’:
+blocksworld/../search/astar.hpp:81:10:   required from ‘void Astar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/astar.hpp:108:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Astar<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:3:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/idastar.hpp: In instantiation of ‘bool Idastar<D>::dfs(D&, Idastar<D>::State&, Idastar<D>::Oper, Idastar<D>::Cost) [with D = Blocksworld; Idastar<D>::State = Blocksworld::State; Idastar<D>::Oper = Blocksworld::Oper; Idastar<D>::Cost = unsigned int]’:
+blocksworld/../search/idastar.hpp:28:11:   required from ‘void Idastar<D>::search(D&, Idastar<D>::State&) [with D = Blocksworld; Idastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/idastar.hpp:61:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Idastar<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[n] == pop)
+        ~~~~~~~^~~~~~
+In file included from blocksworld/../search/main.hpp:14:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/dtastar.hpp: In instantiation of ‘bool Dtastar<D>::Lss::expand(D&, unsigned int) [with D = Blocksworld]’:
+blocksworld/../search/dtastar.hpp:570:5:   required from ‘Dtastar<D>::Move Dtastar<D>::step(D&, Dtastar<D>::Node*) [with D = Blocksworld; Dtastar<D>::Node = Dtastar<Blocksworld>::Graph::Node]’
+blocksworld/../search/dtastar.hpp:519:20:   required from ‘void Dtastar<D>::search(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar.hpp:276:41: error: ‘Dtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+      unsigned long hash = e.node->state.hash(&d);
+                           ~~~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:10:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/arastar.hpp: In instantiation of ‘void Arastar<D>::expand(D&, Arastar<D>::Node*, Arastar<D>::State&) [with D = Blocksworld; Arastar<D>::State = Blocksworld::State]’:
+blocksworld/../search/arastar.hpp:551:4:   required from ‘bool ArastarNORA<D>::improve(D&) [with D = Blocksworld]’
+blocksworld/../search/arastar.hpp:506:15:   required from ‘void ArastarNORA<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/arastar.hpp:268:15: error: no match for ‘operator==’ (operand types are ‘Blocksworld::Oper’ and ‘Arastar<Blocksworld>::Oper {aka Blocksworld::Oper}’)
+    if (ops[i] == n->pop)
+        ~~~~~~~^~~~~~~~~
+In file included from blocksworld/../search/main.hpp:17:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/hhatgreedy.hpp: In instantiation of ‘Hhatgreedy<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Hhatgreedy<Blocksworld>::Node]’
+blocksworld/../search/hhatgreedy.hpp:213:31:   required from ‘Hhatgreedy<D>::Node* Hhatgreedy<D>::init(D&, Hhatgreedy<D>::State&) [with D = Blocksworld; Hhatgreedy<D>::State = Blocksworld::State]’
+blocksworld/../search/hhatgreedy.hpp:79:18:   required from ‘void Hhatgreedy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/hhatgreedy.hpp:22:26: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+       Node() : openind(-1) {
+                          ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:17:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/hhatgreedy.hpp:22:26: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+       Node() : openind(-1) {
+                          ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:16:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam-mm.hpp: In instantiation of ‘BeamSearchMM<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = BeamSearchMM<Blocksworld>::Node]’
+blocksworld/../search/beam-mm.hpp:213:31:   required from ‘BeamSearchMM<D>::Node* BeamSearchMM<D>::init(D&, BeamSearchMM<D>::State&) [with D = Blocksworld; BeamSearchMM<D>::State = Blocksworld::State]’
+blocksworld/../search/beam-mm.hpp:88:18:   required from ‘void BeamSearchMM<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/beam-mm.hpp:21:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:16:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam-mm.hpp:21:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:15:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam.hpp: In instantiation of ‘BeamSearch<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = BeamSearch<Blocksworld>::Node]’
+blocksworld/../search/beam.hpp:203:31:   required from ‘BeamSearch<D>::Node* BeamSearch<D>::init(D&, BeamSearch<D>::State&) [with D = Blocksworld; BeamSearch<D>::State = Blocksworld::State]’
+blocksworld/../search/beam.hpp:87:18:   required from ‘void BeamSearch<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/beam.hpp:20:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:15:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/beam.hpp:20:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘Node* ClosedList<Ops, Node, D>::find(ClosedList<Ops, Node, D>::PackedState&) [with Ops = Dtastar<Blocksworld>::Lss; Node = Dtastar<Blocksworld>::Lss::Node; D = Blocksworld; ClosedList<Ops, Node, D>::PackedState = Blocksworld::State]’:
+blocksworld/../search/dtastar.hpp:334:40:   required from ‘void Dtastar<D>::Lss::learn() [with D = Blocksworld]’
+blocksworld/../search/dtastar.hpp:584:5:   required from ‘Dtastar<D>::Move Dtastar<D>::step(D&, Dtastar<D>::Node*) [with D = Blocksworld; Dtastar<D>::Node = Dtastar<Blocksworld>::Graph::Node]’
+blocksworld/../search/dtastar.hpp:519:20:   required from ‘void Dtastar<D>::search(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:65:20: error: ‘ClosedList<Dtastar<Blocksworld>::Lss, Dtastar<Blocksworld>::Lss::Node, Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+   return find(k, k.hash(dom));
+                  ~~^~~~
+In file included from blocksworld/../search/main.hpp:12:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/fhatlrtastar.hpp: In instantiation of ‘Fhatlrtastar<D>::LssNode::LssNode() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Fhatlrtastar<Blocksworld>::LssNode]’
+blocksworld/../search/fhatlrtastar.hpp:295:34:   required from ‘Fhatlrtastar<D>::LssNode* Fhatlrtastar<D>::expandLss(D&, Fhatlrtastar<D>::Node*) [with D = Blocksworld]’
+blocksworld/../search/fhatlrtastar.hpp:206:29:   required from ‘void Fhatlrtastar<D>::search(D&, Fhatlrtastar<D>::State&) [with D = Blocksworld; Fhatlrtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/fhatlrtastar.hpp:113:56: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   LssNode() : openind(-1), updated(false), closed(false) {
+                                                        ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:11:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/lsslrtastar.hpp: In instantiation of ‘Lsslrtastar2<D>::LssNode::LssNode() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Lsslrtastar2<Blocksworld>::LssNode]’
+blocksworld/../search/lsslrtastar.hpp:321:34:   required from ‘Lsslrtastar2<D>::LssNode* Lsslrtastar2<D>::expandLss(D&, Lsslrtastar2<D>::Node*) [with D = Blocksworld]’
+blocksworld/../search/lsslrtastar.hpp:230:29:   required from ‘void Lsslrtastar2<D>::search(D&, Lsslrtastar2<D>::State&) [with D = Blocksworld; Lsslrtastar2<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/lsslrtastar.hpp:128:56: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   LssNode() : openind(-1), updated(false), closed(false) {
+                                                        ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:13:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/dtastar-dump.hpp: In instantiation of ‘Dtastar_dump<D>::LssNode::LssNode() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Dtastar_dump<Blocksworld>::LssNode]’
+blocksworld/../search/dtastar-dump.hpp:268:34:   required from ‘Dtastar_dump<D>::LssNode* Dtastar_dump<D>::expandLss(D&, Dtastar_dump<D>::Node*) [with D = Blocksworld]’
+blocksworld/../search/dtastar-dump.hpp:217:29:   required from ‘void Dtastar_dump<D>::search(D&, Dtastar_dump<D>::State&) [with D = Blocksworld; Dtastar_dump<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar-dump.hpp:116:56: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   LssNode() : openind(-1), updated(false), closed(false) {
+                                                        ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:10:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/arastar.hpp: In instantiation of ‘Arastar<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Arastar<Blocksworld>::Node]’
+blocksworld/../search/arastar.hpp:312:31:   required from ‘Arastar<D>::Node* Arastar<D>::init(D&, Arastar<D>::State&) [with D = Blocksworld; Arastar<D>::State = Blocksworld::State]’
+blocksworld/../search/arastar.hpp:500:30:   required from ‘void ArastarNORA<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/arastar.hpp:33:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:10:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/arastar.hpp:33:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:9:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy-slim.hpp: In instantiation of ‘Bugsy_slim<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Bugsy_slim<Blocksworld>::Node]’
+blocksworld/../search/bugsy-slim.hpp:179:30:   required from ‘Bugsy_slim<D>::Node* Bugsy_slim<D>::init(D&, Bugsy_slim<D>::State&) [with D = Blocksworld; Bugsy_slim<D>::State = Blocksworld::State]’
+blocksworld/../search/bugsy-slim.hpp:94:18:   required from ‘void Bugsy_slim<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/bugsy-slim.hpp:29:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:9:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy-slim.hpp:29:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:8:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy.hpp: In instantiation of ‘Bugsy<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Bugsy<Blocksworld>::Node]’
+blocksworld/../search/bugsy.hpp:294:31:   required from ‘Bugsy<D>::Node* Bugsy<D>::init(D&, Bugsy<D>::State&) [with D = Blocksworld; Bugsy<D>::State = Blocksworld::State]’
+blocksworld/../search/bugsy.hpp:135:18:   required from ‘void Bugsy<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/bugsy.hpp:35:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:8:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/bugsy.hpp:35:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp: In instantiation of ‘Greedy<D, speedy>::Node::Node() [with D = Blocksworld; bool speedy = true]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Greedy<Blocksworld, true>::Node]’
+blocksworld/../search/greedy.hpp:161:31:   required from ‘Greedy<D, speedy>::Node* Greedy<D, speedy>::init(D&, Greedy<D, speedy>::State&) [with D = Blocksworld; bool speedy = true; Greedy<D, speedy>::State = Blocksworld::State]’
+blocksworld/../search/greedy.hpp:74:18:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = true; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/greedy.hpp:20:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp:20:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp: In instantiation of ‘Greedy<D, speedy>::Node::Node() [with D = Blocksworld; bool speedy = false]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Greedy<Blocksworld, false>::Node]’
+blocksworld/../search/greedy.hpp:161:31:   required from ‘Greedy<D, speedy>::Node* Greedy<D, speedy>::init(D&, Greedy<D, speedy>::State&) [with D = Blocksworld; bool speedy = false; Greedy<D, speedy>::State = Blocksworld::State]’
+blocksworld/../search/greedy.hpp:74:18:   required from ‘void Greedy<D, speedy>::search(D&, typename D::State&) [with D = Blocksworld; bool speedy = false; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/greedy.hpp:20:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:7:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/greedy.hpp:20:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:6:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/wastar.hpp: In instantiation of ‘Wastar<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Wastar<Blocksworld>::Node]’
+blocksworld/../search/wastar.hpp:162:31:   required from ‘Wastar<D>::Node* Wastar<D>::init(D&, Wastar<D>::State&) [with D = Blocksworld; Wastar<D>::State = Blocksworld::State]’
+blocksworld/../search/wastar.hpp:77:18:   required from ‘void Wastar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/wastar.hpp:24:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:6:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/wastar.hpp:24:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:5:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar-dump.hpp: In instantiation of ‘Astar_dump<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Astar_dump<Blocksworld>::Node]’
+blocksworld/../search/astar-dump.hpp:184:31:   required from ‘Astar_dump<D>::Node* Astar_dump<D>::init(D&, Astar_dump<D>::State&) [with D = Blocksworld; Astar_dump<D>::State = Blocksworld::State]’
+blocksworld/../search/astar-dump.hpp:71:18:   required from ‘void Astar_dump<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/astar-dump.hpp:24:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:5:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar-dump.hpp:24:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:4:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar.hpp: In instantiation of ‘Astar<D>::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Astar<Blocksworld>::Node]’
+blocksworld/../search/astar.hpp:156:31:   required from ‘Astar<D>::Node* Astar<D>::init(D&, Astar<D>::State&) [with D = Blocksworld; Astar<D>::State = Blocksworld::State]’
+blocksworld/../search/astar.hpp:68:18:   required from ‘void Astar<D>::search(D&, typename D::State&) [with D = Blocksworld; typename D::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/astar.hpp:21:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/main.hpp:4:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/astar.hpp:21:22: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+   Node() : openind(-1) {
+                      ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+In file included from blocksworld/../search/search.hpp:11:0,
+                 from blocksworld/../search/main.hpp:2,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/closedlist.hpp: In instantiation of ‘void ClosedList<Ops, Node, D>::resize(unsigned int) [with Ops = Dtastar<Blocksworld>::Lss; Node = Dtastar<Blocksworld>::Lss::Node; D = Blocksworld]’:
+blocksworld/../search/closedlist.hpp:30:9:   required from ‘ClosedList<Ops, Node, D>::ClosedList(long unsigned int) [with Ops = Dtastar<Blocksworld>::Lss; Node = Dtastar<Blocksworld>::Lss::Node; D = Blocksworld]’
+blocksworld/../search/dtastar.hpp:233:101:   required from ‘Dtastar<D>::Lss::Lss(Dtastar<D>&, Dtastar<D>::Graph&, Dtastar<D>::Lss::GraphNode*, Dtastar<D>::Lss::GraphNode*, Dtastar<D>::Cost, Dtastar<D>::Oper) [with D = Blocksworld; Dtastar<D>::Lss::GraphNode = Dtastar<Blocksworld>::Graph::Node; Dtastar<D>::Cost = unsigned int; Dtastar<D>::Oper = Blocksworld::Oper]’
+blocksworld/../search/dtastar.hpp:557:13:   required from ‘Dtastar<D>::Move Dtastar<D>::step(D&, Dtastar<D>::Node*) [with D = Blocksworld; Dtastar<D>::Node = Dtastar<Blocksworld>::Graph::Node]’
+blocksworld/../search/dtastar.hpp:519:20:   required from ‘void Dtastar<D>::search(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/closedlist.hpp:219:34: error: ‘Dtastar<Blocksworld>::PackedState {aka struct Blocksworld::State}’ has no member named ‘hash’
+     add(b, f, sz, p, Ops::key(p).hash(dom));
+                      ~~~~~~~~~~~~^~~~
+In file included from blocksworld/../search/main.hpp:14:0,
+                 from blocksworld/main.cc:2:
+blocksworld/../search/dtastar.hpp: In instantiation of ‘Dtastar<D>::Lss::Node::Node() [with D = Blocksworld]’:
+blocksworld/../search/../utils/pool.hpp:40:10:   required from ‘Obj* Pool<Obj>::construct() [with Obj = Dtastar<Blocksworld>::Lss::Node]’
+blocksworld/../search/dtastar.hpp:235:29:   required from ‘Dtastar<D>::Lss::Lss(Dtastar<D>&, Dtastar<D>::Graph&, Dtastar<D>::Lss::GraphNode*, Dtastar<D>::Lss::GraphNode*, Dtastar<D>::Cost, Dtastar<D>::Oper) [with D = Blocksworld; Dtastar<D>::Lss::GraphNode = Dtastar<Blocksworld>::Graph::Node; Dtastar<D>::Cost = unsigned int; Dtastar<D>::Oper = Blocksworld::Oper]’
+blocksworld/../search/dtastar.hpp:557:13:   required from ‘Dtastar<D>::Move Dtastar<D>::step(D&, Dtastar<D>::Node*) [with D = Blocksworld; Dtastar<D>::Node = Dtastar<Blocksworld>::Graph::Node]’
+blocksworld/../search/dtastar.hpp:519:20:   required from ‘void Dtastar<D>::search(D&, Dtastar<D>::State&) [with D = Blocksworld; Dtastar<D>::State = Blocksworld::State]’
+blocksworld/main.cc:11:1:   required from here
+blocksworld/../search/dtastar.hpp:204:68: error: no matching function for call to ‘Blocksworld::Oper::Oper()’
+    Node() : openind(-1), learnind(-1), closed(false), updated(false) {
+                                                                    ^
+In file included from blocksworld/main.cc:1:0:
+blocksworld/blocksworld.hpp:29:9: note: candidate: Blocksworld::Oper::Oper(Blocksworld::Block, Blocksworld::Block)
+         Oper(Block b1, Block b2){
+         ^~~~
+blocksworld/blocksworld.hpp:29:9: note:   candidate expects 2 arguments, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(const Blocksworld::Oper&)
+     struct Oper{
+            ^~~~
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+blocksworld/blocksworld.hpp:25:12: note: candidate: constexpr Blocksworld::Oper::Oper(Blocksworld::Oper&&)
+blocksworld/blocksworld.hpp:25:12: note:   candidate expects 1 argument, 0 provided
+cc1plus: all warnings being treated as errors
+make: *** [blocksworld/9blocksworld_solver] Error 1
