@@ -62,20 +62,12 @@ public:
             return true;
 		}
 
-    private:
-        friend class Blocksworld;
-
-        Block above[Nblocks];
-        Block below[Nblocks];
-        Cost h;
-        Cost d;
-
         void moveblock(Oper move, const Blocksworld &domain)
         {
-            //printf("h before: %d\n", h);
             Block pickUp = move.from;
             Block putOn = move.to;
             Block block = pickUp;
+            //If at any point in the stack, the block below doesn't match what is in the goal, remove 1 from h.
             while(block!=0)
             {
                 if(below[block-1] != domain.goal[block-1]){
@@ -84,13 +76,18 @@ public:
                 }
                 block = below[block-1];
             }
+            //remove block from top of old stack (set block below to have nothing on top)
             if(below[pickUp-1] != 0) above[below[pickUp-1]-1] = 0;
             if(putOn != 0) {
                 above[putOn-1] = pickUp;
                 below[pickUp-1] = putOn;
-                if(below[pickUp-1]!=domain.goal[putOn-1]) h++;
+                //see if block's new location is correct (add 1 to h if not)
+                if(below[pickUp-1]!=domain.goal[pickUp-1]){
+                     h++;
+                 }
+                //otherwise move down stack, if any are out of place, add 1 to h.
                 else{
-                    block = below[putOn-1];
+                    block = below[pickUp-1];
                     while(block!=0)
                     {
                         if(below[block-1] != domain.goal[block-1]){
@@ -106,18 +103,18 @@ public:
                 if(domain.goal[pickUp-1]!=0) h++;
             }
             d = h;
-            /*
-            int lst[Nblocks];
-            for(int i = 1; i<=Nblocks; i++) lst[i-1] = i;
-            for(int i=0; i<Nblocks; i++) printf("%d ", above[i]);
-            printf("\n");
-            for(int i=0; i<Nblocks; i++) printf("%d ", lst[i]);
-            printf("\n");
-            for(int i=0; i<Nblocks; i++) printf("%d ", below[i]);
-            printf("\n");
-            printf("h after: %d\n", h);
-            */
         }
+
+    private:
+        friend class Blocksworld;
+
+        Block above[Nblocks];
+        Block below[Nblocks];
+        Cost h;
+        Cost d;
+
+
+
 
     };
 
@@ -159,16 +156,7 @@ public:
 
 	// Is the given state a goal state?
 	bool isgoal(const State &s) const {
-        printf("in isgoal and h is %d\n",s.h);
-        int lst[Nblocks];
-        for(int i = 1; i<=Nblocks; i++) lst[i-1] = i;
-        for(int i=0; i<Nblocks; i++) printf("%d ", s.above[i]);
-        printf("\n");
-        for(int i=0; i<Nblocks; i++) printf("%d ", lst[i]);
-        printf("\n");
-        for(int i=0; i<Nblocks; i++) printf("%d ", s.below[i]);
-        printf("\n");
-
+        //dumpstate(stdout, s);
 		return s.h  == 0;
 	}
 
@@ -202,13 +190,10 @@ public:
                     pos++;
                 }
             }
-            for(int i=0; i<n; i++){printf("%d,%d\n",mvs[i].from, mvs[i].to);}
             delete [] tops;
-            printf("turn finished\n");
 
         }
-        //42949 67296
-        //1234500000
+
 		// size returns the number of applicable operatiors.
 		unsigned int size() const {
             return n;
@@ -245,7 +230,13 @@ public:
 		Edge(Blocksworld& d, State &s, Oper move) :
                 cost(1), revop(Oper(move.from, s.below[move.from-1])),
                 revcost(1), state(s), domain(d){
+            //printf("Advancing edge:");
+            //printf("Before:\n");
+            //domain.dumpstate(stdout, state);
             state.moveblock(move, domain);
+            //printf("Move: %d, %d", move.from,move.to);
+            //printf("After:\n");
+            //domain.dumpstate(stdout, state);
         }
 
 		// The destructor is expected to undo any changes
@@ -254,7 +245,12 @@ public:
 		// modification then the destructor may not be
 		// required.
 		~Edge(void) {
+            //printf("Undoing!\nBefore:\n");
+            //domain.dumpstate(stdout, state);
             state.moveblock(revop, domain);
+            //printf("Move: %d, %d", revop.from,revop.to);
+            //printf("After:\n");
+            //domain.dumpstate(stdout, state);
         }
 	};
 
@@ -277,6 +273,9 @@ public:
 	// Print the state.
 	void dumpstate(FILE *out, const State &s) const {
         Block printarray[Nblocks][Nblocks];
+        for(int i=0; i<Nblocks; i++){
+            for(int j=0; j<Nblocks; j++) printarray[i][j]=0;
+        }
         int stack = 0;
         int height = 0;
         int maxheight = 0;
@@ -284,10 +283,10 @@ public:
         unsigned int spaces = std::to_string(Nblocks).length();
 		for(int i=0; i<Nblocks; i++){
             if(s.below[i]==0){
-                current = s.below[i];
+                current = i+1;
                 while(current!=0){
                     printarray[stack][height] = current;
-                    current = s.above[current];
+                    current = s.above[current-1];
                     height++;
                 }
                 if(height>maxheight) maxheight = height;
@@ -295,14 +294,18 @@ public:
                 stack++;
             }
         }
+
         for(int j=maxheight; j>=0; j--){
             for(int i=0; i<stack; i++){
-                if(printarray[i][j] == 0) continue;
-                for(unsigned int k=0; k<spaces - std::to_string(printarray[i][j]).length(); k++) fprintf(out, " ");
-                fprintf(out, "%u ", printarray[i][j]);
+                unsigned int fill = spaces - std::to_string(printarray[i][j]).length();
+                for(unsigned int k=0; k< fill; k++) fprintf(out, " ");
+                if(printarray[i][j]==0) fprintf(out, "  ");
+                else fprintf(out, "%u ", printarray[i][j]);
             }
             fprintf(out, "\n");
         }
+        fprintf(out, "h: %d\n", s.h);
+        //delete [] printarray;
 	}
 
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
@@ -312,10 +315,8 @@ private:
 
     Cost noop(Block above[], Block below[]) {
         Cost oop = 0;
-        for(int i=0; i<Nblocks; i++)
-        {
-            if(below[i] == 0)
-            {
+        for(int i=0; i<Nblocks; i++){
+            if(below[i] == 0){
                 bool incorrect = false;
                 Block current = i+1;
                 while(current != 0){
@@ -328,14 +329,3 @@ private:
         return oop;
     }
 };
-
-/*
-int lst[Nblocks];
-for(int i = 1; i<=Nblocks; i++) lst[i-1] = i;
-for(int i=0; i<Nblocks; i++) printf("%d ", above[i]);
-printf("\n");
-for(int i=0; i<Nblocks; i++) printf("%d ", lst[i]);
-printf("\n");
-for(int i=0; i<Nblocks; i++) printf("%d ", below[i]);
-printf("\n");
-*/

@@ -50,7 +50,7 @@ Blocksworld::Cost Blocksworld::pathcost(const std::vector<State> &path, const st
 		state = e.state;
 		cost += e.cost;
 	}
-    printf("this is the assert\n");
+    //printf("this is the assert\n");
 	assert (isgoal(state));
 	return cost;
 }
