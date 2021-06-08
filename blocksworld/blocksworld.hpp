@@ -2,11 +2,14 @@
 #include <cstdlib>
 #include <cassert>
 #include <vector>
+#include <string>
 
 #define MAXBLOCKS 65536
 #if NBLOCKS > MAXBLOCKS
 #error Too many blocks for unsigned short typed blocks.
 #endif
+
+extern "C" unsigned long hashbytes(unsigned char[], unsigned int);
 
 class Blocksworld{
 public:
@@ -23,9 +26,14 @@ public:
         Block from;
         Block to;
 
-        Oper(Block b1 = 0, Block b2 = 0){
+        Oper() : from(0), to(0){}
+        Oper(Block b1, Block b2){
             from = b1;
             to = b2;
+        }
+
+        bool operator==(const Oper &o) const {
+			return from == o.from && to == o.to;
         }
     };
 
@@ -34,6 +42,25 @@ public:
 	Blocksworld(FILE*);
 
 	struct State {
+        bool eq(const Blocksworld*, const State &o) const {
+			for (unsigned int i = 0; i < Nblocks; i++) {
+				if (below[i] != o.below[i])
+					return false;
+			}
+			return true;
+		}
+
+		unsigned long hash(const Blocksworld*) const {
+            return hashbytes((unsigned char *) below,
+						Nblocks * sizeof(Block));
+		}
+
+        bool operator==(const State &o) const {
+			for(int i = 0; i<Nblocks; i++){
+                if(o.below[i] != below[i]) return false;
+            }
+            return true;
+		}
 
     private:
         friend class Blocksworld;
@@ -45,27 +72,25 @@ public:
 
         void moveblock(Oper move, const Blocksworld &domain)
         {
+            //printf("h before: %d\n", h);
             Block pickUp = move.from;
             Block putOn = move.to;
-            if(below[pickUp-1]!=domain.goal[pickUp-1]) h--;
-            else
+            Block block = pickUp;
+            while(block!=0)
             {
-                int block = below[pickUp-1];
-                while(block!=0)
-                {
-                    if(below[block-1] != domain.goal[block-1]){
-                        h--;
-                        break;
-                    }
-                    block = below[block-1];
+                if(below[block-1] != domain.goal[block-1]){
+                    h--;
+                    break;
                 }
+                block = below[block-1];
             }
             if(below[pickUp-1] != 0) above[below[pickUp-1]-1] = 0;
             if(putOn != 0) {
+                above[putOn-1] = pickUp;
+                below[pickUp-1] = putOn;
                 if(below[pickUp-1]!=domain.goal[putOn-1]) h++;
-                else
-                {
-                    int block = below[putOn-1];
+                else{
+                    block = below[putOn-1];
                     while(block!=0)
                     {
                         if(below[block-1] != domain.goal[block-1]){
@@ -75,11 +100,23 @@ public:
                         block = below[block-1];
                     }
                 }
-                above[putOn-1] = pickUp;
-                below[pickUp-1] = putOn;
             }
-            else below[pickUp-1] = 0;
+            else{
+                below[pickUp-1] = 0;
+                if(domain.goal[pickUp-1]!=0) h++;
+            }
             d = h;
+            /*
+            int lst[Nblocks];
+            for(int i = 1; i<=Nblocks; i++) lst[i-1] = i;
+            for(int i=0; i<Nblocks; i++) printf("%d ", above[i]);
+            printf("\n");
+            for(int i=0; i<Nblocks; i++) printf("%d ", lst[i]);
+            printf("\n");
+            for(int i=0; i<Nblocks; i++) printf("%d ", below[i]);
+            printf("\n");
+            printf("h after: %d\n", h);
+            */
         }
 
     };
@@ -106,9 +143,6 @@ public:
 		}
 	};
     */
-	unsigned long hash(const PackedState&) const {
-		return -1;
-	}
 
 	// Get the initial state.
 	State initialstate();
@@ -125,6 +159,16 @@ public:
 
 	// Is the given state a goal state?
 	bool isgoal(const State &s) const {
+        printf("in isgoal and h is %d\n",s.h);
+        int lst[Nblocks];
+        for(int i = 1; i<=Nblocks; i++) lst[i-1] = i;
+        for(int i=0; i<Nblocks; i++) printf("%d ", s.above[i]);
+        printf("\n");
+        for(int i=0; i<Nblocks; i++) printf("%d ", lst[i]);
+        printf("\n");
+        for(int i=0; i<Nblocks; i++) printf("%d ", s.below[i]);
+        printf("\n");
+
 		return s.h  == 0;
 	}
 
@@ -151,16 +195,17 @@ public:
             Oper * temp = new Oper[n];
             mvs = temp;
             for(int pickUp = 0; pickUp < stacks+tabled; pickUp++){
-                if (s.below[tops[pickUp]+1] != 0) {
-                    mvs[pos] = Oper(pickUp+1, 0);
-                    pos++;
-                }
-                for(int putOn = 0; putOn < stacks+tabled; pickUp++){
-                    mvs[pos] = Oper(pickUp+1, putOn+1);
+                for(int putOn = 0; putOn < stacks+tabled; putOn++){
+                    if(pickUp!=putOn) mvs[pos] = Oper(tops[pickUp]+1, tops[putOn]+1);
+                    else if(s.below[tops[pickUp]]==0) continue;
+                    else mvs[pos] = Oper(tops[pickUp]+1, 0);
                     pos++;
                 }
             }
+            for(int i=0; i<n; i++){printf("%d,%d\n",mvs[i].from, mvs[i].to);}
             delete [] tops;
+            printf("turn finished\n");
+
         }
         //42949 67296
         //1234500000
@@ -189,22 +234,18 @@ public:
 		// do in-place modification and the non-reference
 		// variant is used in domains that do out-of-place
 		// modification.
+		//State state;
 		State &state;
-		// State &state
-
+        Blocksworld &domain;
 		// Applys the operator to thet state.  Some domains
 		// may modify the input state in this constructor.
 		// Because of this, a search algorithm may not
 		// use the state passed to this constructor until
 		// after the Edge's destructor has been called!
-		Edge(const Blocksworld& d, const State& s, const Oper move) {
-            state = s;
-            cost = 1;
-            Block inHand = move.from;
-            Block oldBottom = state.below[inHand-1];
-            revop = Oper(inHand, oldBottom);
-            revcost = 1;
-            state.moveblock(move, d);
+		Edge(Blocksworld& d, State &s, Oper move) :
+                cost(1), revop(Oper(move.from, s.below[move.from-1])),
+                revcost(1), state(s), domain(d){
+            state.moveblock(move, domain);
         }
 
 		// The destructor is expected to undo any changes
@@ -213,7 +254,7 @@ public:
 		// modification then the destructor may not be
 		// required.
 		~Edge(void) {
-            state.moveblock(revop, d);
+            state.moveblock(revop, domain);
         }
 	};
 
@@ -235,7 +276,33 @@ public:
 
 	// Print the state.
 	void dumpstate(FILE *out, const State &s) const {
-		fatal("Unimplemented");
+        Block printarray[Nblocks][Nblocks];
+        int stack = 0;
+        int height = 0;
+        int maxheight = 0;
+        Block current;
+        unsigned int spaces = std::to_string(Nblocks).length();
+		for(int i=0; i<Nblocks; i++){
+            if(s.below[i]==0){
+                current = s.below[i];
+                while(current!=0){
+                    printarray[stack][height] = current;
+                    current = s.above[current];
+                    height++;
+                }
+                if(height>maxheight) maxheight = height;
+                height = 0;
+                stack++;
+            }
+        }
+        for(int j=maxheight; j>=0; j--){
+            for(int i=0; i<stack; i++){
+                if(printarray[i][j] == 0) continue;
+                for(unsigned int k=0; k<spaces - std::to_string(printarray[i][j]).length(); k++) fprintf(out, " ");
+                fprintf(out, "%u ", printarray[i][j]);
+            }
+            fprintf(out, "\n");
+        }
 	}
 
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
@@ -243,14 +310,14 @@ private:
     Block init[Nblocks];
     Block goal[Nblocks];
 
-    static Cost noop(Block below[], Block above[]) {
+    Cost noop(Block above[], Block below[]) {
         Cost oop = 0;
-        for(Block block : below)
+        for(int i=0; i<Nblocks; i++)
         {
-            if(below[block-1] == 0)
+            if(below[i] == 0)
             {
                 bool incorrect = false;
-                Block current = block;
+                Block current = i+1;
                 while(current != 0){
                     if(!incorrect && below[current-1] != goal[current-1]) incorrect = true;
                     if(incorrect) oop++;
@@ -261,3 +328,14 @@ private:
         return oop;
     }
 };
+
+/*
+int lst[Nblocks];
+for(int i = 1; i<=Nblocks; i++) lst[i-1] = i;
+for(int i=0; i<Nblocks; i++) printf("%d ", above[i]);
+printf("\n");
+for(int i=0; i<Nblocks; i++) printf("%d ", lst[i]);
+printf("\n");
+for(int i=0; i<Nblocks; i++) printf("%d ", below[i]);
+printf("\n");
+*/

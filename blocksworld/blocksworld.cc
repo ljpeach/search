@@ -2,39 +2,43 @@
 #include "../utils/utils.hpp"
 #include <cstdio>
 #include <cerrno>
+#include <iostream>
+
+const Blocksworld::Oper Blocksworld::Nop;
 
 Blocksworld::Blocksworld(FILE *in) {
-	unsigned int Ncakes;
-	if (fscanf(in, "%u", &Nblocks) != 1)
+	unsigned int Nblocks;
+	if (fscanf(in, "%u\n", &Nblocks) != 1)
 		fatalx(errno, "Failed to read the number of blocks");
-/*
+    /*
 	if (nblocks != Nblocks)
 		fatal("Number of blocks instance/compiler option mismatch");
-*/
-    fscanf(in);
+    */
+    fscanf(in, "What each block is on:\n");
+    for (unsigned int i = 0; i < Nblocks; i++) {
+        if (fscanf(in, "%hu\n", &init[i]) != 1)
+            fatalx(errno, "Failed to read basic block number %d", i);
+    }
+
+    fscanf(in, "Goal:\n");
 	for (unsigned int i = 0; i < Nblocks; i++) {
-		if (fscanf(in, " %d", goal+i) != 1)
-			fatalx(errno, "Failed to read block number %d", i);
+        if (fscanf(in, "%hu\n", &goal[i]) != 1)
+            fatalx(errno, "Failed to read basic block number %d", i);
 	}
+
 }
 
 Blocksworld::State Blocksworld::initialstate() {
 	State s;
-
-	for (unsigned int i = 0; i < Nblocks; i++){
-        s.lower[i] = init[i];
-        if(s.lower[i]!=NULL) s.upper[s.lower[i]] = i;
+    for(int i=0; i<Nblocks; i++) s.above[i] = 0;
+	for (Block i = 0; i < Nblocks; i++){
+        s.below[i] = init[i];
+        if(s.below[i]!=0) s.above[s.below[i]-1] = i+1;
     }
-    for(unsigned int i = 0; i<Nblocks; i++){
-        if(s.lower[i]==0) s.lower[i] = NULL;
-        else s.lower[i]--;
-        if(s.upper[i]==0) s.upper[i] = NULL;
-        else s.upper[i]--;
-    }
-	s.h = noop(s.upper, s.lower, goal);
-
+	s.h = noop(s.above, s.below);
+    s.d = s.h;
 	return s;
-}
+    }
 
 Blocksworld::Cost Blocksworld::pathcost(const std::vector<State> &path, const std::vector<Oper> &ops) {
 	State state = initialstate();
@@ -46,6 +50,7 @@ Blocksworld::Cost Blocksworld::pathcost(const std::vector<State> &path, const st
 		state = e.state;
 		cost += e.cost;
 	}
+    printf("this is the assert\n");
 	assert (isgoal(state));
 	return cost;
 }
