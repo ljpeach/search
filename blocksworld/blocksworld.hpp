@@ -156,7 +156,6 @@ public:
 
 	// Is the given state a goal state?
 	bool isgoal(const State &s) const {
-        //dumpstate(stdout, s);
 		return s.h  == 0;
 	}
 
@@ -230,13 +229,7 @@ public:
 		Edge(Blocksworld& d, State &s, Oper move) :
                 cost(1), revop(Oper(move.from, s.below[move.from-1])),
                 revcost(1), state(s), domain(d){
-            //printf("Advancing edge:");
-            //printf("Before:\n");
-            //domain.dumpstate(stdout, state);
             state.moveblock(move, domain);
-            //printf("Move: %d, %d", move.from,move.to);
-            //printf("After:\n");
-            //domain.dumpstate(stdout, state);
         }
 
 		// The destructor is expected to undo any changes
@@ -245,12 +238,7 @@ public:
 		// modification then the destructor may not be
 		// required.
 		~Edge(void) {
-            //printf("Undoing!\nBefore:\n");
-            //domain.dumpstate(stdout, state);
             state.moveblock(revop, domain);
-            //printf("Move: %d, %d", revop.from,revop.to);
-            //printf("After:\n");
-            //domain.dumpstate(stdout, state);
         }
 	};
 
@@ -305,7 +293,6 @@ public:
             fprintf(out, "\n");
         }
         fprintf(out, "h: %d\n", s.h);
-        //delete [] printarray;
 	}
 
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
