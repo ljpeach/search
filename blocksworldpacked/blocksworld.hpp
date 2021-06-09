@@ -50,11 +50,6 @@ public:
 			return true;
 		}
 
-		unsigned long hash(const Blocksworld*) const {
-            return hashbytes((unsigned char *) below,
-						Nblocks * sizeof(Block));
-		}
-
         bool operator==(const State &o) const {
 			for(int i = 0; i<Nblocks; i++){
                 if(o.below[i] != below[i]) return false;
@@ -125,21 +120,36 @@ public:
 	//
 	// If your state is as packed as it will get then you
 	// can simply 'typedef State PackedState'
-    typedef State PackedState;
-    /*
+    //typedef State PackedState;
+
+
 	struct PackedState {
-		Block *packedDown;
+		Block below[Nblocks];
+        Cost h;
 
 		// Functions for putting a packed state
 		// into a hash table.
 		bool operator==(const PackedState &o) const {
-			for(int i = 0; i<nblocks; i++){
-                if(o[i] != *packedDown[i]) return False;
+			for(int i = 0; i<Nblocks; i++){
+                if(o.below[i] != below[i]) return false;
             }
-            return True;
+            return h==o.h;
 		}
+
+        unsigned long hash(const Blocksworld*) const {
+            return hashbytes((unsigned char *) below,
+                        Nblocks * sizeof(Block));
+        }
+
+        bool eq(const Blocksworld*, const PackedState &o) const {
+            for (unsigned int i = 0; i < Nblocks; i++) {
+                if (below[i] != o.below[i])
+                    return false;
+            }
+            return true;
+        }
+
 	};
-    */
 
 	// Get the initial state.
 	State initialstate();
@@ -246,7 +256,8 @@ public:
 	// If PackedState is the same type as State then this
 	// should at least copy.
 	void pack(PackedState &dst, State &src) const {
-		dst = src;
+        for(int i = 0; i<Nblocks; i++) dst.below[i] = src.below[i];
+        dst.h = src.h;
 	}
 
 	// Unpack the state and return a reference to the
@@ -255,7 +266,16 @@ public:
 	// can just be immediately returned and used
 	// so that there is no need to copy.
 	State &unpack(State &buf, PackedState &pkd) const {
-		return pkd;
+		for(int i = 0; i<Nblocks; i++) buf.below[i] = pkd.below[i];
+        buf.h = pkd.h;
+        buf.d = pkd.h;
+        Block i;
+        for(i = 0; i<Nblocks; i++)buf.above[i] = 0;
+        for (i = 0; i < Nblocks; i++){
+            if(buf.below[i]!=0)
+                buf.above[buf.below[i]-1] = i+1;
+        }
+        return buf;
 	}
 
 	// Print the state.
