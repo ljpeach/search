@@ -6,8 +6,9 @@
 
 #define MAXBLOCKS 255
 #if NBLOCKS > MAXBLOCKS
-#error Too many blocks for unsigned short typed blocks.
+#error Too many blocks for unsigned char typed blocks.
 #endif
+
 
 extern "C" unsigned long hashbytes(unsigned char[], unsigned int);
 
@@ -50,11 +51,6 @@ public:
 			return true;
 		}
 
-		unsigned long hash(const Blocksworld*) const {
-            return hashbytes((unsigned char *) below,
-						Nblocks * sizeof(Block));
-		}
-
         bool operator==(const State &o) const {
 			for(int i = 0; i<Nblocks; i++){
                 if(o.below[i] != below[i]) return false;
@@ -64,6 +60,11 @@ public:
 
         void moveblock(Oper move, const Blocksworld &domain)
         {
+#ifdef DEEP
+            Cost hadj = 2; //h adjustment
+#else
+            Cost hadj = 1;
+#endif
             Block pickUp = move.from;
             Block putOn = move.to;
             Block block = pickUp;
@@ -71,7 +72,11 @@ public:
             while(block!=0)
             {
                 if(below[block-1] != domain.goal[block-1]){
-                    h--;
+#ifdef DEEP
+                    if(below[pickUp-1] == pickUp) h--;
+                    else
+#endif
+                    h -= hadj;
                     break;
                 }
                 block = below[block-1];
@@ -83,7 +88,12 @@ public:
                 below[pickUp-1] = putOn;
                 //see if block's new location is correct (add 1 to h if not)
                 if(below[pickUp-1]!=domain.goal[pickUp-1]){
-                     h++;
+#ifdef DEEP
+                    if(below[pickUp-1] == pickUp) h ++;
+                    else
+#endif
+                    h += hadj;
+
                  }
                 //otherwise move down stack, if any are out of place, add 1 to h.
                 else{
@@ -91,7 +101,7 @@ public:
                     while(block!=0)
                     {
                         if(below[block-1] != domain.goal[block-1]){
-                            h++;
+                            h += hadj;
                             break;
                         }
                         block = below[block-1];
@@ -100,7 +110,7 @@ public:
             }
             else{
                 below[pickUp-1] = 0;
-                if(domain.goal[pickUp-1]!=0) h++;
+                if(domain.goal[pickUp-1]!=0) h += hadj;
             }
             d = h;
         }
@@ -125,21 +135,36 @@ public:
 	//
 	// If your state is as packed as it will get then you
 	// can simply 'typedef State PackedState'
-    typedef State PackedState;
-    /*
+    //typedef State PackedState;
+
+
 	struct PackedState {
-		Block *packedDown;
+		Block below[Nblocks];
+        Cost h;
 
 		// Functions for putting a packed state
 		// into a hash table.
 		bool operator==(const PackedState &o) const {
-			for(int i = 0; i<nblocks; i++){
-                if(o[i] != *packedDown[i]) return False;
+			for(int i = 0; i<Nblocks; i++){
+                if(o.below[i] != below[i]) return false;
             }
-            return True;
+            return h==o.h;
 		}
+
+        unsigned long hash(const Blocksworld*) const {
+            return hashbytes((unsigned char *) below,
+                        Nblocks * sizeof(Block));
+        }
+
+        bool eq(const Blocksworld*, const PackedState &o) const {
+            for (unsigned int i = 0; i < Nblocks; i++) {
+                if (below[i] != o.below[i])
+                    return false;
+            }
+            return true;
+        }
+
 	};
-    */
 
 	// Get the initial state.
 	State initialstate();
@@ -163,34 +188,62 @@ public:
 	// operators for a given state.
 	struct Operators {
 		Operators(const Blocksworld&, const State& s){
-            int stacks = 0;
-            int tabled = 0;
-            for(int i = 0; i< Nblocks; i++){
-                if(s.above[i] == 0 && s.below[i] != 0) stacks++;
-                else if(s.above[i] == 0) tabled++;
-            }
-            n = tabled * (stacks + tabled -1) + stacks * (stacks + tabled);
-            int * tops = new int[stacks+tabled];
-            int pos = 0;
-            for(int i = 0; i< Nblocks; i++){
-                if(s.above[i] == 0) {
-                    tops[pos] = i;
+#ifndef DEEP
+                int stacks = 0;
+                int tabled = 0;
+                for(int i = 0; i< Nblocks; i++){
+                    if(s.above[i] == 0 && s.below[i] != 0) stacks++;
+                    else if(s.above[i] == 0) tabled++;
+                }
+                n = tabled * (stacks + tabled -1) + stacks * (stacks + tabled);
+                int * tops = new int[stacks+tabled];
+                int pos = 0;
+                for(int i = 0; i< Nblocks; i++){
+                    if(s.above[i] == 0) {
+                        tops[pos] = i;
+                        pos++;
+                    }
+                }
+                pos = 0;
+                Oper * temp = new Oper[n];
+                mvs = temp;
+                for(int pickUp = 0; pickUp < stacks+tabled; pickUp++){
+                    for(int putOn = 0; putOn < stacks+tabled; putOn++){
+                        if(pickUp!=putOn) mvs[pos] = Oper(tops[pickUp]+1, tops[putOn]+1);
+                        else if(s.below[tops[pickUp]]==0) continue;
+                        else mvs[pos] = Oper(tops[pickUp]+1, 0);
+                        pos++;
+                    }
+                }
+                delete [] tops;
+#else
+                int stacks = 0;
+                Block hand = 0;
+                int i;
+                for(i = 0; i < Nblocks; i++){
+                    if(s.above[i] == 0) stacks++;
+                    if(s.below[i] == i+1) hand = i+1;
+                }
+                int *tops = new int[stacks];
+                int pos = 0;
+                for(i = 0; i < Nblocks; i++){
+                    if(s.above[i] == 0 && s.below[i] != i+1){
+                        tops[pos] = i;
+                        pos++;
+                    }
+                }
+                n=stacks;
+                if(hand) n++;
+                pos = 0;
+                Oper * temp = new Oper[n];
+                mvs = temp;
+                for(int pickUp = 0; pickUp < stacks; pickUp++){
+                    if(hand) mvs[pos] = Oper(hand, tops[pickUp]+1);
+                    else mvs[pos] = Oper(tops[pickUp]+1, tops[pickUp]+1);
                     pos++;
                 }
-            }
-            pos = 0;
-            Oper * temp = new Oper[n];
-            mvs = temp;
-            for(int pickUp = 0; pickUp < stacks+tabled; pickUp++){
-                for(int putOn = 0; putOn < stacks+tabled; putOn++){
-                    if(pickUp!=putOn) mvs[pos] = Oper(tops[pickUp]+1, tops[putOn]+1);
-                    else if(s.below[tops[pickUp]]==0) continue;
-                    else mvs[pos] = Oper(tops[pickUp]+1, 0);
-                    pos++;
-                }
-            }
-            delete [] tops;
-
+                if(hand) mvs[pos] = Oper(hand, 0);
+#endif
         }
 
 		// size returns the number of applicable operatiors.
@@ -246,7 +299,8 @@ public:
 	// If PackedState is the same type as State then this
 	// should at least copy.
 	void pack(PackedState &dst, State &src) const {
-		dst = src;
+        for(int i = 0; i<Nblocks; i++) dst.below[i] = src.below[i];
+        dst.h = src.h;
 	}
 
 	// Unpack the state and return a reference to the
@@ -255,7 +309,16 @@ public:
 	// can just be immediately returned and used
 	// so that there is no need to copy.
 	State &unpack(State &buf, PackedState &pkd) const {
-		return pkd;
+		for(int i = 0; i<Nblocks; i++) buf.below[i] = pkd.below[i];
+        buf.h = pkd.h;
+        buf.d = pkd.h;
+        Block i;
+        for(i = 0; i<Nblocks; i++)buf.above[i] = 0;
+        for (i = 0; i < Nblocks; i++){
+            if(buf.below[i]!=0)
+                buf.above[buf.below[i]-1] = i+1;
+        }
+        return buf;
 	}
 
 	// Print the state.
@@ -268,6 +331,7 @@ public:
         int height = 0;
         int maxheight = 0;
         Block current;
+        Block hand = 0;
         unsigned int spaces = std::to_string(Nblocks).length();
 		for(int i=0; i<Nblocks; i++){
             if(s.below[i]==0){
@@ -281,6 +345,7 @@ public:
                 height = 0;
                 stack++;
             }
+            else if(s.below[i] == i+1) hand = s.below[i];
         }
 
         for(int j=maxheight; j>=0; j--){
@@ -292,6 +357,7 @@ public:
             }
             fprintf(out, "\n");
         }
+        if(hand) fprintf(out, "Block in Hand: %u\n", hand);
         fprintf(out, "h: %d\n", s.h);
 	}
 

@@ -1,13 +1,13 @@
-// Copyright © 2020 the Search Authors under the MIT license. See AUTHORS for the list of authors.                                                             
-#pragma once                                                                    
-#include "../search/search.hpp"                                                 
+// Copyright © 2020 the Search Authors under the MIT license. See AUTHORS for the list of authors.
+#pragma once
+#include "../search/search.hpp"
 #include "../utils/pool.hpp"
-                                                                                
+
 template <class D> struct BeamSearch : public SearchAlgorithm<D> {
 
 	typedef typename D::State State;
-	typedef typename D::PackedState PackedState;                                
-	typedef typename D::Cost Cost;                                              
+	typedef typename D::PackedState PackedState;
+	typedef typename D::Cost Cost;
 	typedef typename D::Oper Oper;
 
 	struct Node {
@@ -57,7 +57,7 @@ template <class D> struct BeamSearch : public SearchAlgorithm<D> {
 
     private:
 		ClosedEntry<Node, D> closedent;
-    
+
 	};
 
 	BeamSearch(int argc, const char *argv[]) :
@@ -72,7 +72,7 @@ template <class D> struct BeamSearch : public SearchAlgorithm<D> {
 
 		if (width < 1)
 			fatal("Must specify a >0 beam width using -width");
-    
+
 		nodes = new Pool<Node>();
 	}
 
@@ -92,10 +92,10 @@ template <class D> struct BeamSearch : public SearchAlgorithm<D> {
 
 
 		bool done = false;
-    
+
 		while (!open.empty() && !done && !SearchAlgorithm<D>::limit()) {
 			depth++;
-      
+
 			Node **beam = new Node*[width];
 			int c = 0;
 			while(c < width && !open.empty()) {
@@ -109,7 +109,7 @@ template <class D> struct BeamSearch : public SearchAlgorithm<D> {
 				  SearchAlgorithm<D>::res.dups++;
 				  if(!dropdups && n->g < dup->g) {
 					SearchAlgorithm<D>::res.reopnd++;
-					
+
 					dup->f = dup->f - dup->g + n->g;
 					dup->g = n->g;
 					dup->parent = n->parent;
@@ -129,9 +129,9 @@ template <class D> struct BeamSearch : public SearchAlgorithm<D> {
 			}
 
 			while(!open.empty())
-			  open.pop();
+			  nodes->destruct(open.pop());
 			//open.clear();
-      
+
 			for(int i = 0; i < c && !done && !SearchAlgorithm<D>::limit(); i++) {
 				Node *n = beam[i];
 				State buf, &state = d.unpack(buf, n->state);
@@ -190,12 +190,12 @@ private:
 		kid->parent = parent;
 		kid->op = op;
 		kid->pop = e.revop;
-		
+
 		State buf, &kstate = d.unpack(buf, kid->state);
 		if (d.isgoal(kstate) && (!cand || kid->g < cand->g)) {
 		  cand = kid;
 		}
-		
+
 		open.push(kid);
 	}
 
@@ -216,5 +216,5 @@ private:
  	ClosedList<Node, Node, D> closed;
 	Pool<Node> *nodes;
 	Node *cand;
-  
+
 };

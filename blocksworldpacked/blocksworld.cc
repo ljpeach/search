@@ -16,13 +16,13 @@ Blocksworld::Blocksworld(FILE *in) {
     */
     fscanf(in, "What each block is on:\n");
     for (unsigned int i = 0; i < Nblocks; i++) {
-        if (fscanf(in, "%hu\n", &init[i]) != 1)
+        if (fscanf(in, "%hhu\n", &init[i]) != 1)
             fatalx(errno, "Failed to read basic block number %d", i);
     }
 
     fscanf(in, "Goal:\n");
 	for (unsigned int i = 0; i < Nblocks; i++) {
-        if (fscanf(in, "%hu\n", &goal[i]) != 1)
+        if (fscanf(in, "%hhu\n", &goal[i]) != 1)
             fatalx(errno, "Failed to read basic block number %d", i);
 	}
 

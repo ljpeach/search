@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#define MAXBLOCKS 65536
+#define MAXBLOCKS 255
 #if NBLOCKS > MAXBLOCKS
 #error Too many blocks for unsigned short typed blocks.
 #endif
@@ -13,7 +13,7 @@ extern "C" unsigned long hashbytes(unsigned char[], unsigned int);
 
 class Blocksworld{
 public:
-    typedef unsigned short Block;
+    typedef unsigned char Block;
 	typedef unsigned int Cost;
     enum{Nblocks = NBLOCKS};
 	// The type of an operator which can be
