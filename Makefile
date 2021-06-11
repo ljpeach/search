@@ -53,8 +53,6 @@ include drobot/Make.inc
 include segments/Make.inc
 include vacuum/Make.inc
 include traffic/Make.inc
-include blocksworld/Make.inc
-include blocksworldpacked/Make.inc
 include bwdp/Make.inc
 
 everything: $(EVERYTHING)

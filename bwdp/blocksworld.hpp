@@ -9,7 +9,6 @@
 #error Too many blocks for unsigned char typed blocks.
 #endif
 
-
 extern "C" unsigned long hashbytes(unsigned char[], unsigned int);
 
 class Blocksworld{
@@ -122,22 +121,12 @@ public:
         Block below[Nblocks];
         Cost h;
         Cost d;
-
-
-
-
     };
 
 	// Memory-intensive algs such as A* which store
 	// PackedStates instead of States.  Each time operations
 	// are needed, the state is unpacked and operated
 	// upon.
-	//
-	// If your state is as packed as it will get then you
-	// can simply 'typedef State PackedState'
-    //typedef State PackedState;
-
-
 	struct PackedState {
 		Block below[Nblocks];
         Cost h;
@@ -265,15 +254,9 @@ public:
 		Cost cost;
 		Oper revop;
 		Cost revcost;
-
-		// The state field may or may not be a reference.
-		// The reference variant is used in domains that
-		// do in-place modification and the non-reference
-		// variant is used in domains that do out-of-place
-		// modification.
-		//State state;
 		State &state;
         Blocksworld &domain;
+        
 		// Applys the operator to thet state.  Some domains
 		// may modify the input state in this constructor.
 		// Because of this, a search algorithm may not
