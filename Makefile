@@ -54,6 +54,7 @@ include segments/Make.inc
 include vacuum/Make.inc
 include traffic/Make.inc
 include bwdp/Make.inc
+include bwdp-compactoper/Make.inc
 
 everything: $(EVERYTHING)
 
