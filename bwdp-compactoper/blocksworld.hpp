@@ -363,8 +363,9 @@ public:
     Oper getmoveref(Block from, Block to) const {
 #ifndef DEEP
         if(to == 0) to = from;
+        to--;
 #endif
-        return (from-1)*Nblocks + to-1;
+        return (from-1)*Nblocks + to;
         //return movelibrary + (from-1)*Nblocks + to-1 //switch
     }
 
