@@ -31,7 +31,7 @@ Blocksworld::Blocksworld(FILE *in) {
         }
 #else
         for(Block to = 0; to <= Nblocks; to++){
-            movelibrary[(from)*Nblocks + to] = Move(from+1, to);
+            movelibrary[(from)*(Nblocks+1) + to] = Move(from+1, to);
         }
 #endif
     }

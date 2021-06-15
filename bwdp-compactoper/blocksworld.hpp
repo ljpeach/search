@@ -16,7 +16,6 @@ public:
     typedef unsigned char Block;
 	typedef unsigned int Cost;
     typedef unsigned short Oper;
-    //typedef Move* Oper; //switch
 
     enum{Nblocks = NBLOCKS};
 	// The type of an operator which can be
@@ -42,10 +41,8 @@ public:
 
 #ifdef DEEP
     static const Oper Nop = Nblocks*Nblocks + Nblocks;//a "do nothing" action
-    //static const Oper Nop = movelibrary + Nblocks*Nblocks + Nblocks; //a "do nothing" action //switch
 #else
     static const Oper Nop = Nblocks*Nblocks;//a "do nothing" action
-    //static const Oper Nop = movelibrary + Nblocks*Nblocks; //a "do nothing" action //switch
 #endif
 
 	Blocksworld(FILE*);
@@ -74,9 +71,7 @@ public:
             Cost hadj = 1;
 #endif
             Block pickUp = domain.movelibrary[move].from;
-            //Block pickUp = move->from; //switch
             Block putOn = domain.movelibrary[move].to;
-            //Block putOn = move->to; //switch
             Block block = pickUp;
             //If at any point in the stack, the block below doesn't match what is in the goal, remove 1 from h.
             while(block!=0)
@@ -275,7 +270,6 @@ public:
 		// after the Edge's destructor has been called!
 		Edge(Blocksworld& d, State &s, Oper move) :
                 cost(1), revop(d.getmoveref(d.movelibrary[move].from, s.below[d.movelibrary[move].from-1])),
-                //cost(1), revop(d.getmoveref(move->from, s.below[move->from-1])), //switch
                 revcost(1), state(s), domain(d){
             state.moveblock(move, domain);
         }
@@ -365,8 +359,7 @@ public:
         if(to == 0) to = from;
         to--;
 #endif
-        return (from-1)*Nblocks + to;
-        //return movelibrary + (from-1)*Nblocks + to-1 //switch
+        return (from-1)*(Nblocks+1) + to;
     }
 
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
