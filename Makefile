@@ -55,6 +55,7 @@ include vacuum/Make.inc
 include traffic/Make.inc
 include bwdp/Make.inc
 include bwdp-compactoper/Make.inc
+include bwdp-nopack/Make.inc
 
 everything: $(EVERYTHING)
 

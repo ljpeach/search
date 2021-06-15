@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#define MAXBLOCKS 250
+#define MAXBLOCKS 255
 #if NBLOCKS > MAXBLOCKS
 #error Too many blocks for unsigned char typed blocks.
 #endif
@@ -15,9 +15,6 @@ class Blocksworld{
 public:
     typedef unsigned char Block;
 	typedef unsigned int Cost;
-    typedef unsigned short Oper;
-    //typedef Move* Oper; //switch
-
     enum{Nblocks = NBLOCKS};
 	// The type of an operator which can be
 	// applied to a state.  This is usually just an
@@ -25,28 +22,22 @@ public:
 	// class.  Searches assume that operator==
 	// is defined on the Oper class.
 
-    struct Move{
+    struct Oper{
         Block from;
         Block to;
 
-        Move() : from(0), to(0){}
-        Move(Block b1, Block b2){
+        Oper() : from(0), to(0){}
+        Oper(Block b1, Block b2){
             from = b1;
             to = b2;
         }
 
-        bool operator==(const Move &o) const {
+        bool operator==(const Oper &o) const {
 			return from == o.from && to == o.to;
         }
     };
 
-#ifdef DEEP
-    static const Oper Nop = Nblocks*Nblocks + Nblocks;//a "do nothing" action
-    //static const Oper Nop = movelibrary + Nblocks*Nblocks + Nblocks; //a "do nothing" action //switch
-#else
-    static const Oper Nop = Nblocks*Nblocks;//a "do nothing" action
-    //static const Oper Nop = movelibrary + Nblocks*Nblocks; //a "do nothing" action //switch
-#endif
+    static const Oper Nop;//a "do nothing" action
 
 	Blocksworld(FILE*);
 
@@ -66,6 +57,11 @@ public:
             return true;
 		}
 
+        unsigned long hash(const Blocksworld*) const {
+            return hashbytes((unsigned char *) below,
+                        Nblocks * sizeof(Block));
+        }
+
         void moveblock(Oper move, const Blocksworld &domain)
         {
 #ifdef DEEP
@@ -73,10 +69,8 @@ public:
 #else
             Cost hadj = 1;
 #endif
-            Block pickUp = domain.movelibrary[move].from;
-            //Block pickUp = move->from; //switch
-            Block putOn = domain.movelibrary[move].to;
-            //Block putOn = move->to; //switch
+            Block pickUp = move.from;
+            Block putOn = move.to;
             Block block = pickUp;
             //If at any point in the stack, the block below doesn't match what is in the goal, remove 1 from h.
             while(block!=0)
@@ -138,7 +132,9 @@ public:
 	// PackedStates instead of States.  Each time operations
 	// are needed, the state is unpacked and operated
 	// upon.
-	struct PackedState {
+    typedef State PackedState;
+    /*
+    struct PackedState {
 		Block below[Nblocks];
         Cost h;
 
@@ -163,8 +159,8 @@ public:
             }
             return true;
         }
-
 	};
+    */
 
 	// Get the initial state.
 	State initialstate();
@@ -187,7 +183,7 @@ public:
 	// Operators implements an vector of the applicable
 	// operators for a given state.
 	struct Operators {
-		Operators(const Blocksworld& b, const State& s){
+		Operators(const Blocksworld&, const State& s){
 #ifndef DEEP
                 int stacks = 0;
                 int tabled = 0;
@@ -209,9 +205,9 @@ public:
                 mvs = temp;
                 for(int pickUp = 0; pickUp < stacks+tabled; pickUp++){
                     for(int putOn = 0; putOn < stacks+tabled; putOn++){
-                        if(pickUp!=putOn) mvs[pos] = b.getmoveref(tops[pickUp]+1, tops[putOn]+1);
+                        if(pickUp!=putOn) mvs[pos] = Oper(tops[pickUp]+1, tops[putOn]+1);
                         else if(s.below[tops[pickUp]]==0) continue;
-                        else mvs[pos] = b.getmoveref(tops[pickUp]+1, 0);
+                        else mvs[pos] = Oper(tops[pickUp]+1, 0);
                         pos++;
                     }
                 }
@@ -238,11 +234,11 @@ public:
                 Oper * temp = new Oper[n];
                 mvs = temp;
                 for(int pickUp = 0; pickUp < stacks; pickUp++){
-                    if(hand) mvs[pos] = b.getmoveref(hand, tops[pickUp]+1);
-                    else mvs[pos] = b.getmoveref(tops[pickUp]+1, tops[pickUp]+1);
+                    if(hand) mvs[pos] = Oper(hand, tops[pickUp]+1);
+                    else mvs[pos] = Oper(tops[pickUp]+1, tops[pickUp]+1);
                     pos++;
                 }
-                if(hand) mvs[pos] = b.getmoveref(hand, 0);
+                if(hand) mvs[pos] = Oper(hand, 0);
 #endif
         }
 
@@ -274,8 +270,7 @@ public:
 		// use the state passed to this constructor until
 		// after the Edge's destructor has been called!
 		Edge(Blocksworld& d, State &s, Oper move) :
-                cost(1), revop(d.getmoveref(d.movelibrary[move].from, s.below[d.movelibrary[move].from-1])),
-                //cost(1), revop(d.getmoveref(move->from, s.below[move->from-1])), //switch
+                cost(1), revop(Oper(move.from, s.below[move.from-1])),
                 revcost(1), state(s), domain(d){
             state.moveblock(move, domain);
         }
@@ -294,8 +289,7 @@ public:
 	// If PackedState is the same type as State then this
 	// should at least copy.
 	void pack(PackedState &dst, State &src) const {
-        for(int i = 0; i<Nblocks; i++) dst.below[i] = src.below[i];
-        dst.h = src.h;
+        dst = src;
 	}
 
 	// Unpack the state and return a reference to the
@@ -304,16 +298,7 @@ public:
 	// can just be immediately returned and used
 	// so that there is no need to copy.
 	State &unpack(State &buf, PackedState &pkd) const {
-		for(int i = 0; i<Nblocks; i++) buf.below[i] = pkd.below[i];
-        buf.h = pkd.h;
-        buf.d = pkd.h;
-        Block i;
-        for(i = 0; i<Nblocks; i++)buf.above[i] = 0;
-        for (i = 0; i < Nblocks; i++){
-            if(buf.below[i]!=0)
-                buf.above[buf.below[i]-1] = i+1;
-        }
-        return buf;
+		return pkd;
 	}
 
 	// Print the state.
@@ -356,29 +341,13 @@ public:
         fprintf(out, "h: %d\n", s.h);
 	}
 
-    Move getmove(Block from, Block to){
-        return movelibrary[(from-1)*Nblocks + to-1];
-    }
-
-    Oper getmoveref(Block from, Block to) const {
-#ifndef DEEP
-        if(to == 0) to = from;
-#endif
-        return (from-1)*Nblocks + to-1;
-        //return movelibrary + (from-1)*Nblocks + to-1 //switch
-    }
-
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
+
 private:
     Block init[Nblocks];
     Block goal[Nblocks];
-#ifdef DEEP
-    Move movelibrary[Nblocks*Nblocks + Nblocks+1] = {Move()};
-#else
-    Move movelibrary[Nblocks*Nblocks+1] = {Move()};
-#endif
 
-    Cost noop(Block above[], Block below[]) {
+    Cost noop(Block above[], Block below[]) {//noop - number out of place
         Cost oop = 0;
         for(int i=0; i<Nblocks; i++){
             if(below[i] == 0){
