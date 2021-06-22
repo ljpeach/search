@@ -109,8 +109,8 @@ template<class D> SearchAlgorithm<D> *getsearch(int argc, const char *argv[]) {
 		return new BeamSearchMM<D>(argc, argv);
 	else if (strcmp(argv[1], "hhatgreedy") == 0)
 		return new Hhatgreedy<D>(argc, argv);
-    else if (strcmp(argv[1], "bulb") == 0)
-        return new BulbSearch<D>(argc, argv);
+	else if (strcmp(argv[1], "bulb") == 0)
+		return new BulbSearch<D>(argc, argv);
 
 	fatal("Unknown algorithm: %s", argv[1]);
 	return NULL;	// Unreachable
