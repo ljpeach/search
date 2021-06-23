@@ -1,8 +1,9 @@
 #include "search.hpp"
 #include "../utils/pool.hpp"
 #include <tuple>
-#include <unordered_map>
 #include <vector>
+//#include <unordered_map>
+
 
 template <class D> struct BulbSearch : public SearchAlgorithm<D> {
 
@@ -89,7 +90,7 @@ template <class D> struct BulbSearch : public SearchAlgorithm<D> {
     			}
             }
             discrepancies++;
-            if(discrepancies > maxdisc) break;
+            if(discrepancies == maxdisc) break;
 		}
 		this->finish();
 	}
@@ -116,51 +117,72 @@ private:
         std::vector<Node*> slice;
         Node * candidate = NULL;
         int ind;
+        //pseudo: <SLICE, value, index> := nextSlice(depth, 0, h(.), B)
         expand(d, g, 0, slice, candidate, ind);
+        //pseudo: if value>=0, then return value. (return path length if deadend/solution found)
         if(candidate!=NULL) return slice[0];
-        else if(ind == -1) {return NULL;}
+        else if(ind == -1) return NULL;
+        //pseudo: if discrepancies=0 then:
         if(disc == 0){
+            //pseudo: if slice = empty set, then return inf
             if(slice.empty()) return NULL;
+            //pseudo: pathLength = BULBprobe(depth+1, 0, --)
             pathNode = bulbprobe(d, g+1, 0);
-            clearBucket(d, g);
+            //pseudo: remove SLICE from hash table
+            clearBucket(d, g+1, slice.size());
+            //pseudo: return pathLength
             return pathNode;
         }
         else{
-            if(!slice.empty()) clearBucket(d, g);
+            //pseudo: if slice is an empty set, then remove SLICE from the hash table
+            if(!slice.empty()) clearBucket(d, g+1, slice.size());
             while (true) {
+                //pseudo: <SLICE, value, index> := nextSlice(depth, index, --)
                 expand(d, g, 0, slice, candidate, ind);
+                //pseudo: if value >=0,
                 if(candidate!=NULL)
                     return slice[0];
-                else if(slice.empty()) break;
+                else if(ind == -1) break;
+                //pseudo: if slice is empty then continue
                 if(slice.empty()) continue;
-                pathNode = bulbprobe(d, g+1,disc);
-                clearBucket(d, g);
+                //pseudo: pathLength := bulbprobe(depth+1, discrepancies-1, --)
+                pathNode = bulbprobe(d, g+1, disc-1);
+                //pseudo: remove slice from hash table
+                clearBucket(d, g+1, slice.size());
+                //pseudo: if pathlength<inf, return pathLength (if solution)
                 if(pathNode != NULL) return pathNode;
             }
+            //pseudo: slice... etc. nxt slice(depth, 0, --)
             expand(d, g, 0, slice, candidate, ind);
+            //pseudo: if value>=0 return value
             if(candidate!=NULL) return slice[0];
-            else if (slice.empty()) return NULL;
+            else if(ind == -1) return NULL;
+            //pseudo: if slice is empty, return inf
             if(slice.empty()) return NULL;
+            //pseudo: path length = BP(depth+1, disc, --)
             pathNode = bulbprobe(d, g+1, disc);
             return pathNode;
         }
     }
 
-    void clearBucket(D &d, Cost g){
+    void clearBucket(D &d, Cost g, unsigned int slicesize){
         Node * remNode;
-        while(!open[g].empty()) {
+        unsigned int removed = 0;
+        while(!open[g].empty() && !(removed == slicesize)) {
             remNode = open[g].back();
             open[g].pop_back();
             closed.remove(remNode->state, remNode->state.hash(&d));
             nodes->destruct(remNode);
+            removed++;
         }
         open[g].clear();
     }
 
-    void expand(D &d, Cost g, int index, std::vector<Node*> &slice, Node *cand, int &ind) {
+    void expand(D &d, Cost g, int index, std::vector<Node*> &slice, Node* &cand, int &ind) {
+        //generateNewSuccessors
         std::vector<Node*> succs;
         Node* child;
-        int i;
+        int i, j;
         for(Node* n : open[g]){
             State buf, &state = d.unpack(buf, n->state);
             typename D::Operators ops(d, state);
@@ -171,7 +193,13 @@ private:
             }
         }
         std::sort(succs.begin(), succs.end(), Node::pred);
+
+        //nextSlice
         if(succs.empty() || index == (int)succs.size()){
+            //clear unused succs
+            for(i=0; i<(int)succs.size(); i++){
+                nodes->destruct(succs[i]);
+            }
             cand = NULL;
             ind = -1;
             return;
@@ -179,6 +207,10 @@ private:
         State buf, &state = d.unpack(buf, succs[0]->state);
         if(d.isgoal(state)) {
             slice.push_back(succs[0]);
+            //clear unused succs
+            for(i=1; i<(int)succs.size(); i++){
+                nodes->destruct(succs[i]);
+            }
             cand = succs[0];
             ind = -1;
             return;
@@ -187,10 +219,14 @@ private:
         i = index;
         while(i < (int)succs.size() && i - index < width){
             if(SearchAlgorithm<D>::limit()){
-                for(int j = index; j < i; j++){
+                for(j = i; j > index; j--){
                     closed.remove(open[g+1][j]->state, open[g][j]->state.hash(&d));
                     nodes->destruct(open[g+1][j]);
                     open[g+1].pop_back();
+                }
+                //clear unused succs
+                for(j=0; j<(int)succs.size(); j++){
+                    nodes->destruct(succs[j]);
                 }
                 slice.clear();
                 cand = NULL;
@@ -204,6 +240,14 @@ private:
                 closed.add(succs[i], hash);
             }
             i++;
+        }
+        //clear unused succs (before slice)
+        for(int j=0; j<index; j++){
+            nodes->destruct(succs[j]);
+        }
+        //clear unused succs (after slice)
+        for(int j=i; j<(int)succs.size(); j++){
+            nodes->destruct(succs[j]);
         }
         cand = NULL;
         ind = i;
@@ -249,9 +293,8 @@ private:
 
     int width;
     int maxdisc;
+    int maxnodes;
     std::vector<std::vector<Node*>> open;
     ClosedList<Node, Node, D> closed;
     Pool<Node> *nodes;
 };
-//gdb executable
-//run everything else (can be cmd args and everything else)
