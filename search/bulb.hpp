@@ -74,22 +74,20 @@ template <class D> struct BulbSearch : public SearchAlgorithm<D> {
     void search(D &d, typename D::State &s0) {
 		this->start();
 		closed.init(d);
-
 		Node *n0 = init(d, s0);
 		closed.add(n0);
-		open[0].push_back(n0);
-
+		intoOpen(0, n0);
         int discrepancies = 0;
 
 		while (!SearchAlgorithm<D>::limit()) {
 			Node *n = bulbprobe(d, 0, discrepancies);
-
-			State buf, &state = d.unpack(buf, n->state);
-			if (d.isgoal(state)) {
-				solpath<D, Node>(d, n, this->res);
-				break;
-			}
-
+            if(n){
+    			State buf, &state = d.unpack(buf, n->state);
+    			if (d.isgoal(state)) {
+    				solpath<D, Node>(d, n, this->res);
+    				break;
+    			}
+            }
             discrepancies++;
             if(discrepancies > maxdisc) break;
 		}
@@ -116,13 +114,11 @@ private:
     Node* bulbprobe(D &d, Cost g, int disc){
         Node * pathNode;
         std::vector<Node*> slice;
-        Cost val;
+        Node * candidate = NULL;
         int ind;
-        expand(d, g, 0, slice, val, ind);
-        if(val >= 0 || val == -2) {
-            if (val > -1) return slice[0];
-            else return NULL;
-        }
+        expand(d, g, 0, slice, candidate, ind);
+        if(candidate!=NULL) return slice[0];
+        else if(ind == -1) {return NULL;}
         if(disc == 0){
             if(slice.empty()) return NULL;
             pathNode = bulbprobe(d, g+1, 0);
@@ -132,21 +128,18 @@ private:
         else{
             if(!slice.empty()) clearBucket(d, g);
             while (true) {
-                expand(d, g, 0, slice, val, ind);
-                if(val >= 0 || val == -2) {
-                    if (val > -1) return slice[0];
-                    break;
-                }
+                expand(d, g, 0, slice, candidate, ind);
+                if(candidate!=NULL)
+                    return slice[0];
+                else if(slice.empty()) break;
                 if(slice.empty()) continue;
                 pathNode = bulbprobe(d, g+1,disc);
                 clearBucket(d, g);
                 if(pathNode != NULL) return pathNode;
             }
-            expand(d, g, 0, slice, val, ind);
-            if(val >= 0 || val == -2) {
-                if (val > -1) return slice[0];
-                else return NULL;
-            }
+            expand(d, g, 0, slice, candidate, ind);
+            if(candidate!=NULL) return slice[0];
+            else if (slice.empty()) return NULL;
             if(slice.empty()) return NULL;
             pathNode = bulbprobe(d, g+1, disc);
             return pathNode;
@@ -164,8 +157,7 @@ private:
         open[g].clear();
     }
 
-    void expand(D &d, Cost g, int index, std::vector<Node*> slice, Cost &val, int &ind) {
-        slice.clear();
+    void expand(D &d, Cost g, int index, std::vector<Node*> &slice, Node *cand, int &ind) {
         std::vector<Node*> succs;
         Node* child;
         int i;
@@ -179,16 +171,15 @@ private:
             }
         }
         std::sort(succs.begin(), succs.end(), Node::pred);
-
         if(succs.empty() || index == (int)succs.size()){
-            val = -2;
+            cand = NULL;
             ind = -1;
             return;
         }
         State buf, &state = d.unpack(buf, succs[0]->state);
         if(d.isgoal(state)) {
             slice.push_back(succs[0]);
-            val = g+1;
+            cand = succs[0];
             ind = -1;
             return;
         }
@@ -202,24 +193,25 @@ private:
                     open[g+1].pop_back();
                 }
                 slice.clear();
-                val = -2;
+                cand = NULL;
                 ind = -1;
                 return;
             }
             unsigned long hash = succs[i]->state.hash(&d);
             if(closed.find(succs[i]->state, hash)==NULL){
                 slice.push_back(succs[i]);
-                open[g].push_back(succs[i]);
+                intoOpen(g+1, succs[i]);
                 closed.add(succs[i], hash);
             }
             i++;
         }
-        val = -1;
+        cand = NULL;
         ind = i;
         return;
     }
 
     Node* considerkid(D &d, Node *parent, State &state, Oper op) {
+        SearchAlgorithm<D>::res.gend++;
         Node* kid = nodes->construct();
 		assert (kid);
 		typename D::Edge e(d, state, op);
@@ -231,9 +223,8 @@ private:
 		kid->op = op;
 		kid->pop = e.revop;
 
-		//State buf, &state = d.unpack(buf, kid->state);
         unsigned long hash = kid->state.hash(&d);
-        if(closed.find(kid->state, hash)!=NULL)
+        if(closed.find(kid->state, hash)==NULL)
 		    return kid;
         nodes->destruct(kid);
         return NULL;
@@ -249,9 +240,18 @@ private:
 		return n0;
 	}
 
+    void intoOpen(unsigned int depth, Node* node){
+        if(open.size() <= depth){
+            open.resize(depth+1, std::vector<Node*>(0));
+        }
+        open[depth].push_back(node);
+    }
+
     int width;
     int maxdisc;
     std::vector<std::vector<Node*>> open;
     ClosedList<Node, Node, D> closed;
     Pool<Node> *nodes;
 };
+//gdb executable
+//run everything else (can be cmd args and everything else)
