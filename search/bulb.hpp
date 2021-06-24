@@ -219,7 +219,7 @@ private:
         i = index;
         while(i < (int)succs.size() && i - index < width){
             if(SearchAlgorithm<D>::limit() || closed.getFill()>=maxnodes){
-                clearBucket(d, depth+1);
+                if(i!=0) clearBucket(d, depth+1);
                 //clear unused succs
                 for(j=i; j<(int)succs.size(); j++){
                     nodes->destruct(succs[j]);
