@@ -120,49 +120,31 @@ private:
     Node* bulbprobe(D &d, unsigned int depth, int disc){
         Node * pathNode;
         int ind;
-        //pseudo: <SLICE, value, index> := nextSlice(depth, 0, h(.), B)
         expand(d, depth, 0, ind);
-        //pseudo: if value>=0, then return value. (return path length if deadend/solution found)
         if(candidate!=NULL) return candidate;
         else if(ind == -1) return NULL;
-        //pseudo: if discrepancies=0 then:
         if(disc == 0){
-            //pseudo: if slice = empty set, then return inf
             if(open[depth+1].empty()) return NULL;
-            //pseudo: pathLength = BULBprobe(depth+1, 0, --)
             pathNode = bulbprobe(d, depth+1, 0);
-            //pseudo: remove SLICE from hash table
             if(!pathNode) clearBucket(d, depth+1);
-            //pseudo: return pathLength
             return pathNode;
         }
         else{
-            //pseudo: if slice is an empty set, then remove SLICE from the hash table
             if(!open[depth+1].empty()) clearBucket(d, depth+1);
             while (true) {
-                //pseudo: <SLICE, value, index> := nextSlice(depth, index, --)
-                expand(d, depth, 0, ind);
-                //pseudo: if value >=0,
+                expand(d, depth, ind, ind);
                 if(candidate!=NULL)
                     return candidate;
                 else if(ind == -1) break;
-                //pseudo: if slice is empty then continue
                 if(open[depth+1].empty()) continue;
-                //pseudo: pathLength := bulbprobe(depth+1, discrepancies-1, --)
                 pathNode = bulbprobe(d, depth+1, disc-1);
-                //pseudo: remove slice from hash table
                 if(!pathNode) clearBucket(d, depth+1);
-                //pseudo: if pathlength<inf, return pathLength (if solution)
                 if(pathNode != NULL) return pathNode;
             }
-            //pseudo: slice... etc. nxt slice(depth, 0, --)
             expand(d, depth, 0, ind);
-            //pseudo: if value>=0 return value
             if(candidate!=NULL) return candidate;
             else if(ind == -1) return NULL;
-            //pseudo: if slice is empty, return inf
             if(open[depth+1].empty()) return NULL;
-            //pseudo: path length = BP(depth+1, disc, --)
             pathNode = bulbprobe(d, depth+1, disc);
             if(!pathNode) clearBucket(d, depth+1);
             return pathNode;
@@ -230,7 +212,7 @@ private:
             }
             unsigned long hash = succs[i]->state.hash(&d);
             Node* dup = closed.find(succs[i]->state, hash);
-            if(dup == NULL || succs[i]->h < dup->h){
+            if(dup == NULL || succs[i]->g < dup->g){
                 intoOpen(depth+1, succs[i]);
                 closed.add(succs[i], hash);
             }
@@ -244,6 +226,7 @@ private:
         for(int j=i; j<(int)succs.size(); j++){
             nodes->destruct(succs[j]);
         }
+
         candidate = NULL;
         ind = i;
         return;
@@ -264,7 +247,7 @@ private:
 
         unsigned long hash = kid->state.hash(&d);
         Node* dup = closed.find(kid->state, hash);
-        if(dup == NULL || kid->h < dup->h) return kid;
+        if(dup == NULL || kid->g < dup->g) return kid;
         nodes->destruct(kid);
         return NULL;
     }
