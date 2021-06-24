@@ -79,6 +79,7 @@ template <class D> struct BulbSearch : public SearchAlgorithm<D> {
 		closed.add(n0);
 		intoOpen(0, n0);
         int discrepancies = 0;
+        candidate = NULL;
 
 		while (!SearchAlgorithm<D>::limit()) {
 			Node *n = bulbprobe(d, 0, discrepancies);
@@ -112,13 +113,12 @@ template <class D> struct BulbSearch : public SearchAlgorithm<D> {
 
 private:
 
-    Node* bulbprobe(D &d, Cost g, int disc){
+    Node* bulbprobe(D &d, unsigned int depth, int disc){
         Node * pathNode;
         std::vector<Node*> slice;
-        Node * candidate = NULL;
         int ind;
         //pseudo: <SLICE, value, index> := nextSlice(depth, 0, h(.), B)
-        expand(d, g, 0, slice, candidate, ind);
+        expand(d, depth, 0, slice, ind);
         //pseudo: if value>=0, then return value. (return path length if deadend/solution found)
         if(candidate!=NULL) return slice[0];
         else if(ind == -1) return NULL;
@@ -127,18 +127,18 @@ private:
             //pseudo: if slice = empty set, then return inf
             if(slice.empty()) return NULL;
             //pseudo: pathLength = BULBprobe(depth+1, 0, --)
-            pathNode = bulbprobe(d, g+1, 0);
+            pathNode = bulbprobe(d, depth+1, 0);
             //pseudo: remove SLICE from hash table
-            clearBucket(d, g+1, slice.size());
+            if(!pathNode) clearBucket(d, depth+1, slice.size());
             //pseudo: return pathLength
             return pathNode;
         }
         else{
             //pseudo: if slice is an empty set, then remove SLICE from the hash table
-            if(!slice.empty()) clearBucket(d, g+1, slice.size());
+            if(!slice.empty()) clearBucket(d, depth+1, slice.size());
             while (true) {
                 //pseudo: <SLICE, value, index> := nextSlice(depth, index, --)
-                expand(d, g, 0, slice, candidate, ind);
+                expand(d, depth, 0, slice, ind);
                 //pseudo: if value >=0,
                 if(candidate!=NULL)
                     return slice[0];
@@ -146,44 +146,45 @@ private:
                 //pseudo: if slice is empty then continue
                 if(slice.empty()) continue;
                 //pseudo: pathLength := bulbprobe(depth+1, discrepancies-1, --)
-                pathNode = bulbprobe(d, g+1, disc-1);
+                pathNode = bulbprobe(d, depth+1, disc-1);
                 //pseudo: remove slice from hash table
-                clearBucket(d, g+1, slice.size());
+                if(!pathNode) clearBucket(d, depth+1, slice.size());
                 //pseudo: if pathlength<inf, return pathLength (if solution)
                 if(pathNode != NULL) return pathNode;
             }
             //pseudo: slice... etc. nxt slice(depth, 0, --)
-            expand(d, g, 0, slice, candidate, ind);
+            expand(d, depth, 0, slice, ind);
             //pseudo: if value>=0 return value
             if(candidate!=NULL) return slice[0];
             else if(ind == -1) return NULL;
             //pseudo: if slice is empty, return inf
             if(slice.empty()) return NULL;
             //pseudo: path length = BP(depth+1, disc, --)
-            pathNode = bulbprobe(d, g+1, disc);
+            pathNode = bulbprobe(d, depth+1, disc);
+            if(!pathNode) clearBucket(d, depth+1, slice.size());
             return pathNode;
         }
     }
 
-    void clearBucket(D &d, Cost g, unsigned int slicesize){
+    void clearBucket(D &d, unsigned int depth, unsigned int slicesize){
         Node * remNode;
         unsigned int removed = 0;
-        while(!open[g].empty() && !(removed == slicesize)) {
-            remNode = open[g].back();
-            open[g].pop_back();
+        while(!open[depth].empty() && !(removed == slicesize)) {
+            remNode = open[depth].back();
+            open[depth].pop_back();
             closed.remove(remNode->state, remNode->state.hash(&d));
             nodes->destruct(remNode);
             removed++;
         }
-        open[g].clear();
+        open[depth].clear();
     }
 
-    void expand(D &d, Cost g, int index, std::vector<Node*> &slice, Node* &cand, int &ind) {
+    void expand(D &d, unsigned int depth, int index, std::vector<Node*> &slice, int &ind) {
         //generateNewSuccessors
         std::vector<Node*> succs;
         Node* child;
         int i, j;
-        for(Node* n : open[g]){
+        for(Node* n : open[depth]){
             State buf, &state = d.unpack(buf, n->state);
             typename D::Operators ops(d, state);
             SearchAlgorithm<D>::res.expd++;
@@ -200,7 +201,7 @@ private:
             for(i=0; i<(int)succs.size(); i++){
                 nodes->destruct(succs[i]);
             }
-            cand = NULL;
+            candidate = NULL;
             ind = -1;
             return;
         }
@@ -211,7 +212,7 @@ private:
             for(i=1; i<(int)succs.size(); i++){
                 nodes->destruct(succs[i]);
             }
-            cand = succs[0];
+            candidate = succs[0];
             ind = -1;
             return;
         }
@@ -220,23 +221,24 @@ private:
         while(i < (int)succs.size() && i - index < width){
             if(SearchAlgorithm<D>::limit()){
                 for(j = i; j > index; j--){
-                    closed.remove(open[g+1][j]->state, open[g][j]->state.hash(&d));
-                    nodes->destruct(open[g+1][j]);
-                    open[g+1].pop_back();
+                    closed.remove(open[depth+1][j]->state, open[depth][j]->state.hash(&d));
+                    nodes->destruct(open[depth+1][j]);
+                    open[depth+1].pop_back();
                 }
                 //clear unused succs
                 for(j=0; j<(int)succs.size(); j++){
                     nodes->destruct(succs[j]);
                 }
                 slice.clear();
-                cand = NULL;
+                candidate = NULL;
                 ind = -1;
                 return;
             }
             unsigned long hash = succs[i]->state.hash(&d);
-            if(closed.find(succs[i]->state, hash)==NULL){
+            Node* dup = closed.find(succs[i]->state, hash);
+            if(dup == NULL || succs[i]->h < dup->h){
                 slice.push_back(succs[i]);
-                intoOpen(g+1, succs[i]);
+                intoOpen(depth+1, succs[i]);
                 closed.add(succs[i], hash);
             }
             i++;
@@ -249,7 +251,7 @@ private:
         for(int j=i; j<(int)succs.size(); j++){
             nodes->destruct(succs[j]);
         }
-        cand = NULL;
+        candidate = NULL;
         ind = i;
         return;
     }
@@ -268,8 +270,8 @@ private:
 		kid->pop = e.revop;
 
         unsigned long hash = kid->state.hash(&d);
-        if(closed.find(kid->state, hash)==NULL)
-		    return kid;
+        Node* dup = closed.find(kid->state, hash);
+        if(dup == NULL || kid->h < dup->h) return kid;
         nodes->destruct(kid);
         return NULL;
     }
@@ -294,6 +296,7 @@ private:
     int width;
     int maxdisc;
     int maxnodes;
+    Node* candidate;
     std::vector<std::vector<Node*>> open;
     ClosedList<Node, Node, D> closed;
     Pool<Node> *nodes;
