@@ -1,24 +1,24 @@
 bwdp-nopack:\
-	bwdp-nopack/10bwdp_solver\
-    bwdp-nopack/20bwdp_solver\
-    bwdp-nopack/50bwdp_solver\
-    bwdp-nopack/100bwdp_solver\
-    bwdp-nopack/10bw_solver\
-    bwdp-nopack/20bw_solver\
-    bwdp-nopack/50bw_solver\
-    bwdp-nopack/100bw_solver\
+	bwdp-nopack/10bwnpdp_solver\
+    bwdp-nopack/20bwnpdp_solver\
+    bwdp-nopack/50bwnpdp_solver\
+    bwdp-nopack/100bwnpdp_solver\
+    bwdp-nopack/10bwnp_solver\
+    bwdp-nopack/20bwnp_solver\
+    bwdp-nopack/50bwnp_solver\
+    bwdp-nopack/100bwnp_solver\
 
 
 CLEAN+=\
-    bwdp-nopack/10bwdp_solver\
-    bwdp-nopack/10bwdp_solver\
-    bwdp-nopack/20bwdp_solver\
-    bwdp-nopack/50bwdp_solver\
-    bwdp-nopack/100bwdp_solver\
-    bwdp-nopack/10bw_solver\
-    bwdp-nopack/20bw_solver\
-    bwdp-nopack/50bw_solver\
-    bwdp-nopack/100bw_solver\
+    bwdp-nopack/10bwnpdp_solver\
+    bwdp-nopack/10bwnpdp_solver\
+    bwdp-nopack/20bwnpdp_solver\
+    bwdp-nopack/50bwnpdp_solver\
+    bwdp-nopack/100bwnpdp_solver\
+    bwdp-nopack/10bwnp_solver\
+    bwdp-nopack/20bwnp_solver\
+    bwdp-nopack/50bwnp_solver\
+    bwdp-nopack/100bwnp_solver\
 
 EVERYTHING+=bwdp-nopack
 
@@ -27,8 +27,8 @@ BWNPRC=\
 
 CLEAN+=$(BWNPRC:.cc=.o)
 
-bwdp-nopack/%bwdp_solver: bwdp-nopack/main.d
-bwdp-nopack/%bwdp_solver:\
+bwdp-nopack/%bwnpdp_solver: bwdp-nopack/main.d
+bwdp-nopack/%bwnpdp_solver:\
 	$(BWNPRC)\
 	bwdp-nopack/main.cc\
 	utils/utils.a\
@@ -42,8 +42,8 @@ bwdp-nopack/%bwdp_solver:\
 		search/search.a\
 		$(LDFLAGS) -DNBLOCKS=$* -DDEEP -o $@
 
-bwdp-nopack/%bw_solver: bwdp-nopack/main.d
-bwdp-nopack/%bw_solver:\
+bwdp-nopack/%bwnp_solver: bwdp-nopack/main.d
+bwdp-nopack/%bwnp_solver:\
 	$(BWNPRC)\
 	bwdp-nopack/main.cc\
 	utils/utils.a\
