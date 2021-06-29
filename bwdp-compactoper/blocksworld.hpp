@@ -358,11 +358,10 @@ public:
 #ifndef DEEP
         if(to == 0) to = from;
         to--;
-    return (from-1)*(Nblocks) + to;
+        return (from-1)*(Nblocks) + to;
 #else
-    return (from-1)*(Nblocks+1) + to;
+        return (from-1)*(Nblocks+1) + to;
 #endif
-
     }
 
 	Cost pathcost(const std::vector<State>&, const std::vector<Oper>&);
